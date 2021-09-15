@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="My beautiful Crossy Road">
+    <meta name="keywords" content="HTML,CSS,WEBGL,TREE,TREEJS,JavaScript">
+    <meta name="authors" content="Silvio Dei Giudici, Marco Morella, Fortunato Tocci">
+    <title>CrossyRoad.clone();</title>
+    <link rel="stylesheet" href="crossyRoad.css">
+    <script src="./three.js"></script>
+    <script src="./OrbitControls.js"></script>
+    <script src="./thingsRoad.js"></script>
+    <script src="./sheep.js"></script>
+    <script src="./chicken.js"></script>
+    <script src="./fox.js"></script>
+    <script src="./car.js"></script>
+    <style>
+      @font-face {
+        font-family: Title;
+        src: url(./fonts/sf-atarian-system.extended-bold-italic.ttf) format("truetype");
+      }
+
+      @font-face {
+        font-family: Infos;
+        src: url(./fonts/sf-atarian-system.regular.ttf) format("truetype");
+      }
+
+      body {
+        background-image:url(icon/game.png);
+        background-repeat: no-repeat;
+        background-size: cover;
+        color: #fff;
+        font-family: "Infos Courier New";
+        font-size: 2em;
+        text-align: center;
+      }
+      #newGame, #runGame, #instructions, #commands, #creditBtn, #backBtn, #resume, #restart, #menuBtn, #event{
+        text-align: center;
+        vertical-align: middle;
+        border: 2px solid #D2691E;
+        border-radius: 7px;
+        background-color: gold;
+        color: orangeRed;
+        font-size: 32px;
+        font-weight: bold;
+        font-family: "Infos Courier New";
+        width: 8em;
+        margin: 5px auto;
+        text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+      }
+      #instructionsText{
+        text-align: center;
+        vertical-align: middle;
+        border: 2px solid #D2691E;
+        border-radius: 7px;
+        background-color: gold;
+        color: orangeRed;
+        font-size: 30px;
+        font-weight: italic;
+        font-family: "Infos Courier New";
+        text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+        width: 50%;
+        margin: 5px auto;
+        margin-top: 1em;
+      }
+
+      select {
+        scrollbar-width: none;
+        -webkit-appearance: none;
+        background-color: transparent;
+        text-align: center;
+        vertical-align: middle;
+        border: 0;
+        width:400px;
+        height:150px;
+      }
+
+      #selections select option {
+        display:inline-block;
+      }
+
+      #selections {
+        margin-top: 5%;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        vertical-align: middle;
+        border: 2px solid #D2691E;
+        border-radius: 7px;
+        background-color: gold;
+        color: orangeRed;
+        font-size: 32px;
+        font-weight: bold;
+        font-family: "Infos Courier New";
+        font-weight: italic;
+        text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+        width: auto;
+        margin: auto;
+        display: none;
+      }
+
+      select#characterSel option[value="Sheep"]   { width:95px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+      select#characterSel option[value="Chicken"] { width:95px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+      select#characterSel option[value="Fox"] { width:95px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+
+      select#dayNightSel option[value="false"] { background-color:#FFDEAD; width:100px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+      select#dayNightSel option[value="true"] { background-color:#00008B; width:100px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+
+      select#difficult option[value="Easy"] { width:90px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+      select#difficult option[value="Normal"] { width:90px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+      select#difficult option[value="Hard"] { width:90px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+
+      #commandsImg{
+        vertical-align: middle;
+        border: 2px solid #D2691E;
+        border-radius: 7px;
+        background-color: gold;
+        color: orangeRed;
+        margin: 10px auto;
+        display:none;
+        width:500px;
+        height:500px
+      }
+      #theHead{
+        margin-top: 7%;
+        margin-left: auto;
+        margin-right: auto;
+        color: orangeRed;
+        font-size: 80pt;
+        font-family: "Title";
+        font-weight: bold;
+        text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+      }
+      #credits{
+        margin-top: 7%;
+        margin-left: auto;
+        margin-right: auto;
+        color: orangeRed;
+        font-size: 90px;
+        font-family: "Infos Courier New";
+        font-weight: italic;
+        text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+        display: none;
+        background-color: inherit;
+      }
+      #score{
+        margin:auto;
+        color: orangeRed;
+        font-size: 22px;
+        font-family: "Infos Courier New";
+        font-weight: italic;
+        text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+        display: none;
+        background-color: inherit;
+      }
+
+      #menu{
+        margin-top:7%;
+        color: orangeRed;
+        font-size: 22px;
+        font-family: "Infos Courier New";
+        font-weight: italic;
+        text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+        display: none;
+        background-color: white;
+      }
+
+      #backBtn{
+        display: none;
+      }
+    </style>
+    <script>
+      var runGame = function(){
+        document.getElementById("newGame").style.display = "none";
+        document.getElementById("theHead").style.display = "none";
+        document.getElementById("credits").style.display = "none";
+        //document.getElementById("instructions").style.display = "none";
+        document.getElementById("commands").style.display = "none";
+        document.getElementById("creditBtn").style.display = "none";
+        document.getElementById("runGame").style.display = "none";
+        document.getElementById("selections").style.display = "none";
+        document.getElementById("characterSel").style.display = "none";
+        document.getElementById("backBtn").style.display = "none";
+        var opt = document.getElementById("characterSel");
+        var charSelected = opt.options[opt.selectedIndex].value;
+        opt = document.getElementById("dayNightSel");
+        var condSelected = opt.options[opt.selectedIndex].value;
+        opt = document.getElementById("difficult");
+        var diffSelected = opt.options[opt.selectedIndex].value;
+        startGame(charSelected, condSelected, diffSelected);
+        document.getElementById("world").style.display = "block";
+        document.getElementById("toggle toggle-night").style.display = "block";
+        document.getElementById("score").style.display = "block";
+        document.getElementById("toggle-menu").style.display = "block";
+      }
+
+      var showGameChoices = function(){
+        document.getElementById("newGame").style.display = "none";
+        document.getElementById("theHead").style.display = "none";
+        document.getElementById("credits").style.display = "none";
+        //document.getElementById("instructions").style.display = "none";
+        document.getElementById("instructionsText").style.display = "none";
+        document.getElementById("commands").style.display = "none";
+        document.getElementById("creditBtn").style.display = "none";
+        document.getElementById("runGame").style.display = "block";
+        document.getElementById("selections").style.display = "inline-block";
+        document.getElementById("characterSel").style.display = "block";
+        document.getElementById("backBtn").style.display = "block";
+      };
+     var showCredits = function(){
+       document.getElementById("theHead").style.display = "none";
+       document.getElementById("creditBtn").style.display = "none";
+       document.getElementById("newGame").style.display = "none";
+       //document.getElementById("instructions").style.display = "none";
+       document.getElementById("instructionsText").style.display = "none";
+       document.getElementById("commands").style.display = "none";
+       document.getElementById("commandsImg").style.display = "none";
+       document.getElementById("selections").style.display = "none";
+       document.getElementById("characterSel").style.display = "none";
+       document.getElementById("runGame").style.display = "none";
+       document.getElementById("credits").style.display = "block";
+       document.getElementById("backBtn").style.display = "block";
+     };
+     /*var showInstructions = function(){
+       document.getElementById("theHead").style.display = "none";
+       document.getElementById("creditBtn").style.display = "none";
+       document.getElementById("newGame").style.display = "none";
+       //document.getElementById("instructions").style.display = "none";
+       document.getElementById("instructionsText").style.display = "block";
+       document.getElementById("commands").style.display = "none";
+       document.getElementById("credits").style.display = "none";
+       document.getElementById("commandsImg").style.display = "none";
+       document.getElementById("selections").style.display = "none";
+       document.getElementById("characterSel").style.display = "none";
+       document.getElementById("runGame").style.display = "none";
+       document.getElementById("backBtn").style.display = "block";
+     };*/
+     var showCommands = function(){
+       document.getElementById("theHead").style.display = "none";
+       document.getElementById("creditBtn").style.display = "none";
+       document.getElementById("newGame").style.display = "none";
+       //document.getElementById("instructions").style.display = "none";
+       document.getElementById("instructionsText").style.display = "none";
+       document.getElementById("commands").style.display = "none";
+       document.getElementById("credits").style.display = "none";
+       document.getElementById("selections").style.display = "none";
+       document.getElementById("characterSel").style.display = "none";
+       document.getElementById("runGame").style.display = "none";
+       document.getElementById("commandsImg").style.display = "block";
+       document.getElementById("backBtn").style.display = "block";
+     };
+    var goBack = function(){
+      document.getElementById("backBtn").style.display = "none";
+      document.getElementById("credits").style.display = "none";
+      document.getElementById("commandsImg").style.display = "none";
+      document.getElementById("selections").style.display = "none";
+      document.getElementById("characterSel").style.display = "none";
+      document.getElementById("runGame").style.display = "none";
+      document.getElementById("theHead").style.display = "block";
+      document.getElementById("newGame").style.display = "block";
+      document.getElementById("creditBtn").style.display = "block";
+      document.getElementById("instructionsText").style.display = "block";
+       //document.getElementById("instructions").style.display = "none";
+      document.getElementById("commands").style.display = "block";
+    };
+  </script>
+</head>
+<body>
+    <div id="theHead">Welcome to <br>CrossyRoad.clone();</div>
+    <div id="content" style="box-sizing:content-box;">
+      <div id="newGame" onclick="showGameChoices()" onmouseover="this.style.backgroundColor = '#D2691E'" onmouseout="this.style.backgroundColor = 'gold'">Play</div>
+      <!--<div id="instructions" onclick="showInstructions()" onmouseover="this.style.backgroundColor = '#D2691E'" onmouseout="this.style.backgroundColor = 'gold'">Instructions</div>-->
+      <div id="commands" onclick="showCommands()" onmouseover="this.style.backgroundColor = '#D2691E'" onmouseout="this.style.backgroundColor = 'gold'">Commands</div>
+      <div id="creditBtn" onmouseover="this.style.backgroundColor = '#D2691E'" onmouseout="this.style.backgroundColor = 'gold'" onclick="showCredits()">Credits</div>
+      <div id="credits">CrossyRoad.clone();<br> Made by <br> Silvio Dei Giudici<br>Marco Morella<br>Fortunato Tocci</div>
+      <div id="selections" style="margin-top:3%;">
+        <label>Select character</label>
+        <select id="characterSel" size="3">
+          <option style="background-image:url(icon/sheep.png);" value="Sheep" selected></option>
+          <option style="background-image:url(icon/chicken.png);" value="Chicken"></option>
+          <option style="background-image:url(icon/fox.png);" value="Fox" ></option>
+        </select></br>
+        <label>Select day or night</label></br>
+        <select id="dayNightSel" size="2">
+          <option style="background-image:url(icon/sun.png);" value="false" selected></option>
+          <option style="background-image:url(icon/night.png);" value="true"></option>
+        </select></br>
+        <label>Select Difficult</label></br>
+        <select id="difficult" size="3">
+          <option style="background-image:url(icon/easy.png);" value="Easy" selected></option>
+          <option style="background-image:url(icon/normal.png);" value="Normal"></option>
+          <option style="background-image:url(icon/hard.png);" value="Hard"></option>
+        </select>
+      </div>
+      <div id="instructionsText">
+        <p>Animals in the wild have plenty of challenges!</br>This one wants to go across and it's your job to help it.</br>But the cars are coming, so be careful!<p>
+      </div>
+      <img id="commandsImg" src="./icon/commads.jpg" style="margin-top:3%;"/>
+      <div id="runGame" onclick="runGame()" onmouseover="this.style.backgroundColor = '#D2691E'" onmouseout="this.style.backgroundColor = 'gold'" style="display: none; margin-top:10px;">Play Now</div>
+      <div id="backBtn" onmouseover="this.style.backgroundColor = '#D2691E'" onmouseout="this.style.backgroundColor = 'gold'" onclick="goBack()">Back</div>
+    </div>
+    <div id="world" class="world" style="display: none;">
+      <a id="toggle toggle-night" class="toggle toggle-night" style="display: none;"></a>
+      <a id="toggle-menu" class="toggle-menu" style="display: none;"></a>
+      <div id="score">
+        <p style="display:inline-block;">Current Score :</p> <p id="cScore" style="display:inline-block;"></p>
+        <p style="display:inline-block; margin-left:5%;">High Score :</p><p id="hScore" style="display:inline-block;"></p>
+      </div>
+      <div id="event" style="display: none; font-size: 45px;">Text</div>
+      <div id="resume" onclick="resumeAnim()" onmouseover="this.style.backgroundColor = '#D2691E'" onmouseout="this.style.backgroundColor = 'gold'" style="display: none;">Resume</div>
+      <!--<div id="restart" onclick="restartGame()" onmouseover="this.style.backgroundColor = '#D2691E'" onmouseout="this.style.backgroundColor = 'gold'" style="display: none;">Restart</div>-->
+      <div id="menuBtn" onclick="location.reload();" onmouseover="this.style.backgroundColor = '#D2691E'" onmouseout="this.style.backgroundColor = 'gold'" style="display: none;">Menu</div>
+    </div>
+    <script type="text/javascript" src="crossyRoad.js"></script>
+    </div>
+</body>
+<html>
