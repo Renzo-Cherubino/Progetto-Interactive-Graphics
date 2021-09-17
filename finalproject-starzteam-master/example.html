@@ -33,7 +33,7 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
 
     //CAMERA
-    camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 1000 );
+    camera = new THREE.PerspectiveCamera(200, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
     //SCENE
     scene = new THREE.Scene();
@@ -47,7 +47,7 @@
   
     var loader = new THREE.GLTFLoader();
 
-    loader.load('untitled.glb', handle_load);
+    loader.load('scene.glb', handle_load);
 
     var mesh;
 
@@ -58,7 +58,8 @@
         console.log(mesh.children[0]);
         mesh.children[0].material = new THREE.MeshLambertMaterial();
 		scene.add( mesh );
-        mesh.position.z = -10;
+        mesh.position.z = -20;
+        mesh.position.y = -10;
     }
 
 
