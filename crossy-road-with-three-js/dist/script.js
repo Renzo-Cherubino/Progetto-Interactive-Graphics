@@ -20,7 +20,7 @@ const zoom = 2;
 
 const chickenSize = 15;
 
-const positionWidth = 42;
+const positionWidth = 32;
 const columns = 17;
 const boardWidth = positionWidth*columns;
 

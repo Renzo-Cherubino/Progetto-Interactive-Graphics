@@ -491,6 +491,55 @@ class Tree {
   }
 }
 
+
+
+class Wall {
+  constructor(){
+
+    texture = new THREE.TextureLoader().load( 'texture/brickwall2.png' ); //brickwall2.jpg
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.set( 40, 1 );
+
+    this.materialWall = new THREE.MeshPhongMaterial({ map: texture }); //
+
+    const heightWall = 4.5;
+    const widthWall = 400;
+    const depthWall = 0.5;
+
+    this.wall = new THREE.Mesh( new THREE.BoxBufferGeometry( widthWall, heightWall, depthWall ), this.materialWall );
+    this.wall.position.set(34, heightWall/2, 200);
+    this.wall.castShadow = true;
+    this.wall.receiveShadow = true;
+    this.wall.rotation.set(0, rad(-90), 0)
+    this.wall.scale.set(1.5, 1.5, 1.5);
+    scene.add(this.wall);
+  }
+}
+
+class Tunnel {
+  constructor(){
+
+    this.materialTunnel = new THREE.MeshPhongMaterial({
+      color: 0x000000,
+      flatShading: true
+    });
+
+    const heightTunnel = 3;
+    const widthTunnel = 2; //////////////////////// * num di strade consecutive
+
+    this.tunnel = new THREE.Mesh( new THREE.BoxBufferGeometry( widthTunnel, heightTunnel, 0.3 ), this.materialTunnel );
+    this.tunnel.position.set(33.8, heightTunnel/2-1, 13); ////////////////// il terzo valore è dove sta la strada
+    this.tunnel.castShadow = false;
+    this.tunnel.receiveShadow = false;
+    this.tunnel.rotation.set(0, rad(-90), 0)
+    this.tunnel.scale.set(1.5, 1.5, 1.5);
+    scene.add(this.tunnel);
+  }
+}
+
+
+
 class PoleLight {
 
   constructor(){
@@ -547,6 +596,19 @@ class PoleLight {
     this.spotLight.angle = Math.PI / 4;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 class GrassStart {
   constructor(positionZ) {

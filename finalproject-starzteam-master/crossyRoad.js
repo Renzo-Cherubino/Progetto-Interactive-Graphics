@@ -32,7 +32,7 @@ var poleLight,
     ambientLight,
     spotLight;
 
-var numOfLevelVisible = 4,
+var numOfLevelVisible = 10,
     numOfLevelPrec = 1, //so you will render numOfLevelVisible + numOfLevelPrec tracks
     actualLevelCamera = 0;
 
@@ -82,9 +82,9 @@ function init() {
   }
   camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
   camera.lookAt(scene.position);
-  camera.position.set(0, 20, -15);
+  camera.position.set(-20, 30, -30);
 
-  tot = -15;
+  tot = -20 ;
 
   renderer = new THREE.WebGLRenderer({ alpha: true });
   renderer.setPixelRatio(window.devicePixelRatio);
@@ -100,6 +100,7 @@ function init() {
   addLights();
   drawAnimal();
   drawTerrain();
+  drawCity();
 
   world = document.querySelector('.world');
   world.appendChild(renderer.domElement);
@@ -120,7 +121,7 @@ function addLights() {
   spotLight.shadow.mapSize.width = 1024;
   spotLight.shadow.mapSize.height = 1024;
   spotLight.shadow.camera.near = 10;
-  spotLight.shadow.camera.far = 200;
+  spotLight.shadow.camera.far = 300;
   scene.add( spotLight );
 
   if(night){
@@ -259,6 +260,14 @@ function drawTerrain() {
 
 }
 
+
+function drawCity() {
+  Wall = new Wall();
+  Tunnel = new Tunnel();
+}
+
+
+
 function onResize() {
   width = window.innerWidth;
   height = window.innerHeight;
@@ -343,7 +352,7 @@ function render() {
       }
 
     }
-    camera.position.set(0, 15, tot); //TO UNCOMMENT
+    camera.position.set(-20, 15, tot); //TO UNCOMMENT
 
     if(referencePositionAnimal.z > limitMax){
       actualTrack++;
