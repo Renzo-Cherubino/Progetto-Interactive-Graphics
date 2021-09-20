@@ -14,7 +14,7 @@ var scene,
     night = false,
     counter = 0,
     posAtt = -9.75,
-    tot = -15,
+    tot = 0,
     foggyDay = false,
     numberOfJumps = 0,
     added = false,
@@ -32,8 +32,8 @@ var poleLight,
     ambientLight,
     spotLight;
 
-var numOfLevelVisible = 10,
-    numOfLevelPrec = 1, //so you will render numOfLevelVisible + numOfLevelPrec tracks
+var numOfLevelVisible = 17,
+    numOfLevelPrec = 3, //so you will render numOfLevelVisible + numOfLevelPrec tracks
     actualLevelCamera = 0;
 
 var mappingTracks = [];
@@ -45,6 +45,8 @@ var numOfFrontActiveLevels = 2;
 
 var animal,
     sky;
+
+var wall;
 
 var tracks = [];
 
@@ -81,8 +83,8 @@ function init() {
   }
   }
   camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-  camera.lookAt(scene.position);
-  camera.position.set(-20, 30, -30);
+  camera.position.set(-15, 32, -30); // orientamento camera -15 32 -30
+  
 
   tot = -20 ;
 
@@ -97,10 +99,12 @@ function init() {
   controls.enableKeys = false;
   controls.enabled = false;
 
+  
   addLights();
   drawAnimal();
-  drawTerrain();
   drawCity();
+  drawTerrain();
+  
 
   world = document.querySelector('.world');
   world.appendChild(renderer.domElement);
@@ -110,9 +114,14 @@ function init() {
   window.addEventListener('resize', onResize);
 }
 
+function drawCity() {
+  wall = new Wall();
+  scene.add(wall);
+}
+
 function addLights() {
   poleLight = new PoleLight();
-
+  
   spotLight = new THREE.SpotLight( 0xffffff, 1 );
   spotLight.position.set( 60, 30, 80 );
   spotLight.penumbra = 0.05;
@@ -173,7 +182,7 @@ function getNewTerrain(posZ = -1){
     track = new GrassEnd(posAtt);
   } 
   else {
-    if(Math.floor(Math.random()*2) == 0){
+    if(Math.floor(Math.random()*1) == 0){
       var n = Math.floor(Math.random()*numLanes.length);
       track = new Road(posAtt, numLanes[n]);
       numberOfJumps+=n+2;
@@ -188,10 +197,6 @@ function getNewTerrain(posZ = -1){
     track: track,
     pos: pos
   };
-}
-
-function drawCity() {
-  Wall = new Wall();
 }
 
 function enableAllLevelObject(object){ //need a group or scene as parameter, object
@@ -259,8 +264,6 @@ function drawTerrain() {
   for(; i < tracks.length; i++){
     initialValue++;
     disableLevelToChildren(tracks[i].group, 0);
-    for(var j = initialValue; j < initialValue + numOfLevelPrec + numOfLevelVisible; j++)
-      enableLevelToChildren(tracks[i].group, j);
   }
 
 }
@@ -326,21 +329,22 @@ function render() {
   scene.updateMatrixWorld();
   var referencePositionAnimal = new THREE.Vector3();
   animal.boxReference.getWorldPosition(referencePositionAnimal);
+
   if(highestScore == numberOfJumps){
     eventMsg("You Win!");
     crash = true;
     pause = true;
   }
+
   if(!crash){
 
-    if ((tot > referencePositionAnimal.z + 1.5 ) ||
-      referencePositionAnimal.x >33 ||
-      referencePositionAnimal.x <-33){
+    if ((tot > referencePositionAnimal.z + 1.5 ) || referencePositionAnimal.x >33 || referencePositionAnimal.x <-33) {
       crash = true;
       pause = true;
       outrun = true;
       eventMsg("Outrunned!");
     }
+
     else if(highestScore != 0){
       if((referencePositionAnimal.z - tot >= 0) && (highestScore < numberOfJumps)){
         tot+=diffModifier*(1+ (referencePositionAnimal.z - tot)/4);
@@ -350,7 +354,8 @@ function render() {
       }
 
     }
-    camera.position.set(-20, 15, tot); //TO UNCOMMENT
+
+    camera.position.set(-10, 20, -3+tot); // posizione camera
 
     if(referencePositionAnimal.z > limitMax){
       actualTrack++;
@@ -361,6 +366,7 @@ function render() {
       actualLevelCamera = actualLevelCamera % 32;
       camera.layers.set(actualLevelCamera);
       }
+    
     if(referencePositionAnimal.z <= limitMin && actualTrack > 0){
       actualTrack--;
       limitMax = limitMin;
@@ -389,12 +395,15 @@ function render() {
       }
     }
   }
+
   else if(pause){
     //need to be before the other controls and then crash control
   }
+
   else if(!splash){
     if(!outrun) animal.crashAnimation();
   }
+
   else{
     animal.sunkAnimation();
     activateSplash(referencePositionAnimal.z, referencePositionAnimal.x, 150);
@@ -513,21 +522,21 @@ function eventMsg(msg) {
 
 function setDifficulty(diff){
   if(diff == "Easy"){
-    numLevels = 6;
+    numLevels = 100;
     listNumCar = [0,2,3];
     listSpeed = [0.04, 0.05, 0.06, 0.12];
     speedListWood = [0.01, 0.02, 0.05];
     diffModifier = 0.035;
   }
   else if (diff == "Normal"){
-    numLevels = 10;
+    numLevels = 16;
     listNumCar = [1,2,3];
     listSpeed = [0.06, 0.08, 0.15];
     speedListWood = [0.03, 0.04, 0.1];
     diffModifier = 0.04;
   }
   else{
-    numLevels = 16;
+    numLevels = 26;
     listNumCar = [2,3,4];
     listSpeed = [0.15, 0.18, 0.25];
     speedListWood = [0.05, 0.06, 0.13];
