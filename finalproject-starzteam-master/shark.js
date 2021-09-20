@@ -1,8 +1,8 @@
-import { GLTFLoader } from 'GLTFLoader.js';
+import  GLTFLoader  from 'GLTFLoader.js';
 
-const dist = 0.095;
-const sharkSheepUp = 0.12;
-const sharkSheepDown = 0.16;
+//const dist = 0.095;
+const speedsharkUp = 0.12;
+const speedsharkDown = 0.16;
 var last = 'z';
 var sign = +1;
 var angle = 0;
@@ -17,14 +17,15 @@ var goingFastShark = 1.4;
 var referencePosition = new THREE.Vector3();
 
 
-class shark{
+class Shark{
     constructor(){
 
 
     const loader = new GLTFLoader();
-    loader.load('./models/shark.glb',
+    loader.load('./models/shark.glb',gltf);
 	
-	function ( gltf ) {
+      
+      function gltf() {
 
 		scene.add( gltf.scene );
 
@@ -33,13 +34,12 @@ class shark{
 		gltf.scenes; // Array<THREE.Group>
 		gltf.cameras; // Array<THREE.Camera>
 		gltf.asset; // Object
+    
 
-	},
 	
-	function ( xhr ) {console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );},
 	
-	function ( error ) {console.log( 'An error happened' );}
-    );
+	
+      }
 
     this.selected = 0;
     this.group = new THREE.Group();
@@ -59,7 +59,8 @@ class shark{
     this.sideX = boxReferenceWidth/2; //lato box / 2
     this.sideY = boxReferenceHeight/2;
     this.sideZ = boxReferenceDepth/2;
-
+    
+    
     
     }
 

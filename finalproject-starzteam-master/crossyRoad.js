@@ -154,6 +154,9 @@ function drawAnimal() {
   else if (pickedAnimal == "Fox"){
     animal = new Fox();
   }
+  else if (pickedAnimal == "Shark"){
+    animal = new Shark();
+  }
   else{
     animal = new Chicken();
   }
