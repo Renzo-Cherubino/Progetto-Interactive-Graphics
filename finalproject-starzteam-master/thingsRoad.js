@@ -27,39 +27,19 @@ class Road {
     this.group.scale.set(1.5, 1.5, 1.5);
     this.group.rotation.y = rad(-90);
 
-    this.materialAsphalt = new THREE.MeshPhongMaterial({
-      color: 0x393D49,
-      flatShading: true
-    });
-
-    this.materialLine = new THREE.MeshPhongMaterial({
-      color: 0x454A59,
-      flatShading: true
-    });
-
-    this.materialMiddle = new THREE.MeshPhongMaterial({
-      color: 0xbaf455,
-      flatShading: true
-    });
-
-    this.materialLeft = new THREE.MeshPhongMaterial({
-      color: 0x99C846,
-      flatShading: true
-    });
-
-    this.materialRight = new THREE.MeshPhongMaterial({
-      color: 0x99C846,
-      flatShading: true
-    });
+    this.materialAsphalt = new THREE.MeshPhongMaterial({color: 0x393D49, flatShading: true});
+    this.materialLine = new THREE.MeshPhongMaterial({color: 0x454A59, flatShading: true });
+    this.materialMiddle = new THREE.MeshPhongMaterial({color: 0xbaf455, flatShading: true});
+    this.materialLeft = new THREE.MeshPhongMaterial({color: 0x99C846, flatShading: true});
+    this.materialRight = new THREE.MeshPhongMaterial({color: 0x99C846, flatShading: true});
 
     this.vAngle = 0;
 
-    this.drawParts(numLanes);
+    this.drawParts(numLanes, posZ);
 
-    this.tunnel = new Tunnel(posZ, numLanes);
   }
 
-  drawParts(num) {
+  drawParts(numLanes, posZ) {
     this.middleGrass = new THREE.Mesh(new THREE.BoxBufferGeometry( widthGrass, highGrass, depthGrass), this.materialMiddle);
     this.middleGrass.receiveShadow = true;
     this.group.add(this.middleGrass);
@@ -91,7 +71,7 @@ class Road {
     var k;
     var car;
 
-    for(var i = 0; i < (num*2)-1; i++){
+    for(var i = 0; i < (numLanes*2)-1; i++){
       if(i%2 == 0){
         var road = new THREE.Mesh(new THREE.BoxBufferGeometry( widthRoad, hightRoad, depthRoad),  this.materialAsphalt);
         if(i>0){
@@ -125,7 +105,8 @@ class Road {
         }
 
         totalDistance = 0;
-      }else{
+      }
+      else{
         road = new THREE.Mesh(new THREE.PlaneBufferGeometry(widthRoad/4, depthRoad),  this.materialLine);
         road.position.x = distRoad;
         road.position.y = 0.07;
@@ -134,17 +115,20 @@ class Road {
         this.prec.add(road);
         this.prec = road;
       }
+
+      for (let i=0; i<numLanes; i++){
+        var tunnel = new Tunnel(posZ, i);
+        this.prec.add(tunnel.trunk);
+      }
     }
+
     this.trees = [];
-
-
     var tree = new Tree();
     this.rightGrass.add(tree.group);
     this.trees.push(tree);
-
     tree = new Tree();
     this.leftGrass.add(tree.group);
-    this.trees.push(tree)
+    this.trees.push(tree);
   }
 
   doCheck(){
@@ -380,8 +364,13 @@ class Wood{
   }
 }
 
+
+
+
+
+
+
 const treeHeights = [1.0,1.5,2.0,2.5,3.0];
-//const treePositions = [1.0,1.2,1.4,1.6,1.8,-1.0,-1.2,-1.4,-1.6,-1.8,2.0,2.2,2.4,2.6,2.8,3.0,-2.0,-2.2,-2.4,-2.6,-2.8,-3.0];
 const treePositions = [1.0,1.4,1.8,-1.0,-1.4,-1.8,2.0,2.4,2.8,3.0,-2.0,-2.4,-2.8,-3.0];
 
 class Tree {
@@ -399,32 +388,12 @@ class Tree {
     var texture2n = new THREE.TextureLoader().load( 'texture/treebark2normal.jpg' );
 
     //load texture for the tree
-    this.materialTree = [
-        new THREE.MeshStandardMaterial({
-            map: texture2,
-            normalMap : texture2n
-        }),
-        new THREE.MeshStandardMaterial({
-            map: texture2,
-            normalMap : texture2n
-        }),
-        new THREE.MeshStandardMaterial({
-            map: texture1,
-            normalMap : texture1n
-        }),
-        new THREE.MeshStandardMaterial({
-            map: texture1,
-            normalMap : texture1n
-        }),
-        new THREE.MeshStandardMaterial({
-            map: texture2,
-            normalMap : texture2n
-        }),
-        new THREE.MeshStandardMaterial({
-            map: texture2,
-            normalMap : texture2n
-        })
-     ];
+    this.materialTree = [new THREE.MeshStandardMaterial({map: texture2, normalMap : texture2n}),
+        new THREE.MeshStandardMaterial({map: texture2, normalMap : texture2n}),
+        new THREE.MeshStandardMaterial({map: texture1, normalMap : texture1n}),
+        new THREE.MeshStandardMaterial({map: texture1, normalMap : texture1n}),
+        new THREE.MeshStandardMaterial({map: texture2, normalMap : texture2n}),
+        new THREE.MeshStandardMaterial({map: texture2, normalMap : texture2n})];
 
      texture1 = new THREE.TextureLoader().load( 'texture/bush.jpg' );
      texture1n = new THREE.TextureLoader().load( 'texture/bushnormal.jpg' );
@@ -432,32 +401,12 @@ class Tree {
      texture2n = new THREE.TextureLoader().load( 'texture/bush2normal.jpg' );
 
      //load texture for the tree
-     this.materialCrown = [
-         new THREE.MeshStandardMaterial({
-             map: texture2,
-             normalMap : texture2n
-         }),
-         new THREE.MeshStandardMaterial({
-             map: texture2,
-             normalMap : texture2n
-         }),
-         new THREE.MeshStandardMaterial({
-             map: texture1,
-             normalMap : texture1n
-         }),
-         new THREE.MeshStandardMaterial({
-             map: texture1,
-             normalMap : texture1n
-         }),
-         new THREE.MeshStandardMaterial({
-             map: texture2,
-             normalMap : texture2n
-         }),
-         new THREE.MeshStandardMaterial({
-             map: texture2,
-             normalMap : texture2n
-         })
-      ];
+     this.materialCrown = [new THREE.MeshStandardMaterial({map: texture2, normalMap : texture2n}),
+         new THREE.MeshStandardMaterial({map: texture2, normalMap : texture2n}),
+         new THREE.MeshStandardMaterial({map: texture1, normalMap : texture1n}),
+         new THREE.MeshStandardMaterial({map: texture1, normalMap : texture1n}),
+         new THREE.MeshStandardMaterial({map: texture2, normalMap : texture2n}),
+         new THREE.MeshStandardMaterial({map: texture2, normalMap : texture2n})];
 
     this.vAngle = 0;
 
@@ -484,15 +433,26 @@ class Tree {
       this.group.add(this.crown);
       i+=1.5;
     }
-
-    /*
-    this.worldPosition = new THREE.Vector3();
-    trees[j].trunk.getWorldPosition(this.worldPosition);
-    */
   }
 }
 
+class Tunnel {
+  constructor(posZ, i) {
+    this.materialTunnel = new THREE.MeshPhongMaterial({color: 0x000000, flatShading: true});
+    const heightTunnel = 4;
+    const widthTunnel = 2.5;
+    this.drawParts(posZ, i, widthTunnel, heightTunnel);
+  }
 
+  drawParts(posZ, i, widthTunnel, heightTunnel) {
+    this.trunk = new THREE.Mesh(new THREE.BoxBufferGeometry(widthTunnel, heightTunnel, 0.3), this.materialTunnel);
+    this.trunk.position.x = 0; //  + i*3.5
+    this.trunk.position.y = 1;
+    this.trunk.position.z = -22.5;
+    this.trunk.castShadow = false;
+    this.trunk.receiveShadow = false;
+  }
+}
 
 class Wall {
   constructor(){
@@ -517,32 +477,6 @@ class Wall {
     scene.add(this.wall);
   }
 }
-
-class Tunnel {
-  constructor(posZ, numLanes){
-
-    this.materialTunnel = new THREE.MeshPhongMaterial({
-      color: 0x000000,
-      flatShading: true
-    });
-
-    const heightTunnel = 3;
-    const widthTunnel = 2.5; //////////////////////// * num di strade consecutive
-
-    this.tunnel = []
-
-    for (let i=0; i<numLanes; i++){
-      this.tunnel[i] = new THREE.Mesh( new THREE.BoxBufferGeometry( widthTunnel, heightTunnel, 0.3 ), this.materialTunnel );
-      this.tunnel[i].castShadow = false;
-      this.tunnel[i].receiveShadow = false;
-      this.tunnel[i].rotation.set(0, rad(-90), 0)
-      this.tunnel[i].scale.set(1.5, 1.5, 1.5);
-      this.tunnel[i].position.set(33.8, heightTunnel/2-1, 4+posZ + i*3.5);  ///////////
-      scene.add(this.tunnel[i]);
-    }
-  }
-}
-
 
 
 class PoleLight {
