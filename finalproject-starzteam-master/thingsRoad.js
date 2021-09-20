@@ -18,12 +18,12 @@ var texture;
 var texture1;
 
 class Road {
-  constructor(positionZ, numLanes) {
+  constructor(posZ, numLanes) {
     this.occupiedSpace = 0;
     this.group = new THREE.Group();
     this.group.position.y = -1.35;
 
-    this.group.position.z = positionZ;
+    this.group.position.z = posZ;
     this.group.scale.set(1.5, 1.5, 1.5);
     this.group.rotation.y = rad(-90);
 
@@ -56,6 +56,7 @@ class Road {
 
     this.drawParts(numLanes);
 
+    this.tunnel = new Tunnel(posZ, numLanes);
   }
 
   drawParts(num) {
@@ -518,7 +519,7 @@ class Wall {
 }
 
 class Tunnel {
-  constructor(){
+  constructor(posZ, numLanes){
 
     this.materialTunnel = new THREE.MeshPhongMaterial({
       color: 0x000000,
@@ -526,15 +527,19 @@ class Tunnel {
     });
 
     const heightTunnel = 3;
-    const widthTunnel = 2; //////////////////////// * num di strade consecutive
+    const widthTunnel = 2.5; //////////////////////// * num di strade consecutive
 
-    this.tunnel = new THREE.Mesh( new THREE.BoxBufferGeometry( widthTunnel, heightTunnel, 0.3 ), this.materialTunnel );
-    this.tunnel.position.set(33.8, heightTunnel/2-1, 13); ////////////////// il terzo valore è dove sta la strada
-    this.tunnel.castShadow = false;
-    this.tunnel.receiveShadow = false;
-    this.tunnel.rotation.set(0, rad(-90), 0)
-    this.tunnel.scale.set(1.5, 1.5, 1.5);
-    scene.add(this.tunnel);
+    this.tunnel = []
+
+    for (let i=0; i<numLanes; i++){
+      this.tunnel[i] = new THREE.Mesh( new THREE.BoxBufferGeometry( widthTunnel, heightTunnel, 0.3 ), this.materialTunnel );
+      this.tunnel[i].castShadow = false;
+      this.tunnel[i].receiveShadow = false;
+      this.tunnel[i].rotation.set(0, rad(-90), 0)
+      this.tunnel[i].scale.set(1.5, 1.5, 1.5);
+      this.tunnel[i].position.set(33.8, heightTunnel/2-1, 4+posZ + i*3.5);  ///////////
+      scene.add(this.tunnel[i]);
+    }
   }
 }
 

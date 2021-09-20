@@ -171,7 +171,8 @@ function getNewTerrain(posZ = -1){
   }
   else if(posZ == 1){
     track = new GrassEnd(posAtt);
-  } else {
+  } 
+  else {
     if(Math.floor(Math.random()*2) == 0){
       var n = Math.floor(Math.random()*numLanes.length);
       track = new Road(posAtt, numLanes[n]);
@@ -187,6 +188,10 @@ function getNewTerrain(posZ = -1){
     track: track,
     pos: pos
   };
+}
+
+function drawCity() {
+  Wall = new Wall();
 }
 
 function enableAllLevelObject(object){ //need a group or scene as parameter, object
@@ -259,13 +264,6 @@ function drawTerrain() {
   }
 
 }
-
-
-function drawCity() {
-  Wall = new Wall();
-  Tunnel = new Tunnel();
-}
-
 
 
 function onResize() {
