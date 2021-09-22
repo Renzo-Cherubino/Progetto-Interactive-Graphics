@@ -28,9 +28,12 @@
             select#characterSel option[value="Sheep"]   { width:95px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
             select#characterSel option[value="Chicken"] { width:95px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
             select#characterSel option[value="Fox"] { width:95px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+            select#characterSel option[value="Shark"] { width:95px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
 
-            select#dayNightSel option[value="false"] { background-color:#FFDEAD; width:100px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
-            select#dayNightSel option[value="true"] { background-color:#00008B; width:100px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+            select#dayNightSel option[value="false"] { background-color:white; width:100px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+            select#dayNightSel option[value="true"] { background-color:white; width:100px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+            select#dayNightSel option[value="false"] { background-color:white; width:100px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+
 
             select#difficult option[value="Easy"] { width:90px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
             select#difficult option[value="Normal"] { width:90px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
@@ -40,23 +43,30 @@
 </head>
 <body>
 
-    <div id="selection">
+    <div id="selection1">
         <label>Select character</label></br>
-        <select id="characterSel" size="3">
+        <select id="characterSel" size="4">
           <option style="background-image:url(icon/sheep.png);" value="Sheep" selected></option>
           <option style="background-image:url(icon/chicken.png);" value="Chicken"></option>
           <option style="background-image:url(icon/fox.png);" value="Fox" ></option>
+          <option style="background-image:url(icon/fox.png);" value="Fox" ></option>
         </select></br>
-        <label>Select day or night</label></br>
-        <select id="dayNightSel" size="2">
-          <option style="background-image:url(icon/sun.png);" value="false" selected></option>
-          <option style="background-image:url(icon/night.png);" value="true"></option>
+        </div>
+
+        <div id="selection2">
+        <label>Select the light</label></br>
+        <select id="dayNightSel" size="3">
+          <option style="background-image:url(icon/sun.png);" value="false"  ></option>
+          <option style="background-image:url(icon/night.png);" value="true" selected></option>
+          <option style="background-image:url(icon/mist.png);" value="true"></option>
         </select></br>
-        <label>Select Difficult</label></br>
+        </div>
+        <div id="selection3">
+        <label>Select Difficulty</label></br>
         <select id="difficult" size="3">
-          <option style="background-image:url(icon/easy.png);" value="Easy" selected></option>
-          <option style="background-image:url(icon/normal.png);" value="Normal"></option>
-          <option style="background-image:url(icon/hard.png);" value="Hard"></option>
+          <option style="background-image:url(icon/Easy1.png);" value="Easy" selected></option>
+          <option style="background-image:url(icon/Normal1.png);" value="Normal"></option>
+          <option style="background-image:url(icon/Difficult.png);" value="Hard"></option>
         </select>
       </div>
 
