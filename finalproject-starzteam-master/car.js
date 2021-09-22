@@ -301,6 +301,7 @@ class Car {
           }
 
           crash = true;
+          
         }
   }
 }

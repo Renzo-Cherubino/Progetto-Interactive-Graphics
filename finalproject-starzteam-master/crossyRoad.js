@@ -30,6 +30,7 @@ var scene,
 
 var soundtrack = null;
 const sound = createjs.Sound;
+var flag_dead = false;
 
 var poleLight,
     ambientLight,
@@ -131,18 +132,18 @@ function loadSounds() {
   sound.addEventListener("fileload", startSoundtrack);
   sound.registerSound("audio/City_sounds.ogg", 'ambient');
   sound.registerSound("audio/Subway_Surfers.ogg", 'music');
+  sound.registerSound("audio/Death_sound.ogg", 'death');
 }
 
 function startSoundtrack(event) {
   if (event.id == "ambient") {
     soundtrack = sound.play('ambient');
-    soundtrack.volume = 0.1;
+    soundtrack.volume = 0.3;
   }
   if (event.id == "music") {
     soundtrack = sound.play('music');
-    soundtrack.volume = 0.1;
+    soundtrack.volume = 0.3;
   }
-  
 }
 
 
@@ -438,7 +439,13 @@ function render() {
   }
 
   else if(!splash){
-    if(!outrun) animal.crashAnimation();
+    if(!outrun) {
+      animal.crashAnimation();
+      if(!flag_dead) {
+        sound.play('death');
+        flag_dead = true;
+      }
+    }
   }
 
   else{
