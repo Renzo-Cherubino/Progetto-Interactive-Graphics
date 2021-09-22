@@ -1,0 +1,222 @@
+#menuElelements {
+    width:0px;
+    height:0px;
+    
+    border-left: 300px solid transparent;
+    border-right:390px  solid transparent;
+    border-top: 200px  solid transparent;
+    border-radius: px;
+    position:relative;
+    margin:auto;
+    top:150px;
+    left:460px;
+}
+
+#start {
+  
+    position:relative;
+    bottom:270px; 
+    right:560px;
+    height:50px;
+    width:200px;
+    text-align:center;
+    font-size:100px;
+    -webkit-transition:0.8s;
+    transition:0.8s;
+    color:rgb(236, 106, 0);
+    font-family:TextFont;
+
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+
+    -moz-text-shadow: -10px -5px 5px rgba(0,0,0,1);
+    -webkit-text-shadow: -10px -5px 5px rgba(0,0,0,1);
+    text-shadow: -10px -5px 5px rgba(0,0,0,1);
+    
+    cursor:pointer; 
+}
+
+#start:hover {
+    color:rgb(221, 25, 25);
+    transform:scale(1.25);   
+}
+
+#tutorial {
+    position:relative;
+    bottom:280px; /*bottom:330px;*/ 
+    right:620px;
+    height:50px;
+    width:300px;
+    font-size:100px;
+    text-align:center;
+    font-family:TextFont;
+    color:rgb(236, 106, 0);
+    -webkit-transition:0.8s;
+    transition:0.8s;
+
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+
+    -moz-text-shadow: -10px -5px 5px rgba(0,0,0,1);
+    -webkit-text-shadow: -10px -5px 5px rgba(0,0,0,1);
+    text-shadow: -10px -5px 5px rgba(0,0,0,1);
+
+    cursor:pointer; 
+}
+
+
+#tutorial:hover {
+    color:rgb(221, 25, 25);
+    transform:scale(1.25);  
+}
+
+#credits {
+    position:relative;
+    bottom:280px;
+    right:600px;
+    height:50px;
+    width:200px;
+    font-size:100px;
+    text-align:center;
+    font-family:TextFont;
+    color:rgb(236, 106, 0);
+    -webkit-transition:0.8s;
+    transition:0.8s;
+
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+
+    -moz-text-shadow: -10px -5px 5px rgba(0,0,0,1);
+    -webkit-text-shadow: -10px -5px 5px rgba(0,0,0,1);
+    text-shadow: -10px -5px 5px rgba(0,0,0,1);
+
+    cursor:pointer;
+}
+
+#credits p {
+    position:relative;
+    top:0px;
+  
+}
+
+#credits:hover {
+    color:rgb(221, 25, 25);
+    transform:scale(1.25); 
+}
+
+#play {
+  
+    position:absolute;
+    bottom:100px; 
+    right:200px;
+    height:150px;
+    width:200px;
+    text-align:center;
+    font-size:90px;
+    -webkit-transition:0.8s;
+    transition:0.8s;
+    color:rgb(236, 106, 0);
+    font-family:TextFont;
+
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+
+    -moz-text-shadow: -10px -5px 5px rgba(0,0,0,1);
+    -webkit-text-shadow: -10px -5px 5px rgba(0,0,0,1);
+    text-shadow: -10px -5px 5px rgba(0,0,0,1);
+    
+    cursor:pointer; 
+}
+
+#play:hover {
+    color:rgb(221, 25, 25);
+    transform:scale(1.25);   
+}
+
+
+#back { 
+    position: absolute;
+    bottom:25%;
+    left:10%;
+    height:50px;
+    width:50px;
+    text-align:center;
+    font-size:80px;
+    -webkit-transition:0.8s;
+    transition:0.8s;
+    color:rgb(236, 106, 0);
+    font-family:TextFont;
+
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+
+    -moz-text-shadow: -10px -5px 5px rgba(0,0,0,1);
+    -webkit-text-shadow: -10px -5px 5px rgba(0,0,0,1);
+    text-shadow: -10px -5px 5px rgba(0,0,0,1);
+    
+    cursor:pointer;
+}
+
+#back:hover {
+    color:rgb(221, 25, 25);
+    transform:scale(1.5);
+}
+
+
+#text{
+    position:absolute;
+    bottom:80%;
+    left:26%;
+    height:40px;
+    width:700px;
+    font-size:60px;
+    text-align:center;
+    font-family:TextFont;
+    color:rgb(236, 106, 0);
+    -webkit-transition:0.8s;
+    transition:0.8s;
+
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+
+    -moz-text-shadow: -10px -5px 5px rgb(0,0,0,1);
+    -webkit-text-shadow: -10px -5px 5px rgb(0,0,0,1);
+    text-shadow: -10px -5px 5px rgba(0,0,0,1);
+
+    cursor:pointer;
+}
+
+#selection select option {
+    display:inline-block;
+  }
+
+#selection{
+    position:absolute;
+    bottom:80%;
+    left:26%;
+    height:40px;
+    width:700px;
+    font-size:30px;
+    text-align:center;
+    font-family:TextFont;
+    color:rgb(236, 106, 0);
+    -webkit-transition:0.8s;
+    transition:0.8s;
+
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+
+    -moz-text-shadow: -10px -5px 5px rgb(0,0,0,1);
+    -webkit-text-shadow: -10px -5px 5px rgb(0,0,0,1);
+    text-shadow: -10px -5px 5px rgba(0,0,0,1);
+
+    cursor:pointer;
+}
+

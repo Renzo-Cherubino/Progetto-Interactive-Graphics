@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
+    <title>Credits</title>
+    <link rel="shortcut icon" href="#">
+
+        <style>
+            html, body {
+                overflow: hidden;
+                width   : 100%;
+                height  : 100%;
+                margin  : 0;
+                padding : 0;
+                background-image:url("img/menuBack5.jpg");
+                background-size: 100% 100%;
+            }
+
+            @font-face{
+	            font-family: 'TextFont';
+	            src: url('font/font8.ttf') format('truetype');
+	            font-weight: normal;
+	            font-style: normal;
+            }
+            
+            select#characterSel option[value="Sheep"]   { width:95px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+            select#characterSel option[value="Chicken"] { width:95px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+            select#characterSel option[value="Fox"] { width:95px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+
+            select#dayNightSel option[value="false"] { background-color:#FFDEAD; width:100px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+            select#dayNightSel option[value="true"] { background-color:#00008B; width:100px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+
+            select#difficult option[value="Easy"] { width:90px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+            select#difficult option[value="Normal"] { width:90px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+            select#difficult option[value="Hard"] { width:90px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+
+        </style>
+</head>
+<body>
+
+    <div id="selection">
+        <label>Select character</label></br>
+        <select id="characterSel" size="3">
+          <option style="background-image:url(icon/sheep.png);" value="Sheep" selected></option>
+          <option style="background-image:url(icon/chicken.png);" value="Chicken"></option>
+          <option style="background-image:url(icon/fox.png);" value="Fox" ></option>
+        </select></br>
+        <label>Select day or night</label></br>
+        <select id="dayNightSel" size="2">
+          <option style="background-image:url(icon/sun.png);" value="false" selected></option>
+          <option style="background-image:url(icon/night.png);" value="true"></option>
+        </select></br>
+        <label>Select Difficult</label></br>
+        <select id="difficult" size="3">
+          <option style="background-image:url(icon/easy.png);" value="Easy" selected></option>
+          <option style="background-image:url(icon/normal.png);" value="Normal"></option>
+          <option style="background-image:url(icon/hard.png);" value="Hard"></option>
+        </select>
+      </div>
+
+    <div id="play" onclick="window.location.href = 'selection.html';" onmouseover="document.getElementById('player').play();"><p>Play</p></div>
+    <div id="back" onclick="window.location.href = 'menuIndex.html';" onmouseover="document.getElementById('playercredits').play();"><p>BACK</p></div>
+
+    <link rel="stylesheet" href="menu.css" type="text/css" />
+
+</body>
+</html> 
