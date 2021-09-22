@@ -28,6 +28,9 @@ var scene,
     listSpeed = [],
     speedListWood = [];
 
+var soundtrack = null;
+const sound = createjs.Sound;
+
 var poleLight,
     ambientLight,
     spotLight;
@@ -99,11 +102,13 @@ function init() {
   controls.enableKeys = false;
   controls.enabled = false;
 
-  
+
   addLights();
+  loadSounds();
   drawAnimal();
   drawCity();
   drawTerrain();
+
   
 
   world = document.querySelector('.world');
@@ -119,6 +124,31 @@ function drawCity() {
   scene.add(wall);
 }
 
+
+
+////// SOUNDS
+function loadSounds() {
+  sound.addEventListener("fileload", startSoundtrack);
+  sound.registerSound("audio/City_sounds.ogg", 'ambient');
+  sound.registerSound("audio/Subway_Surfers.ogg", 'music');
+}
+
+function startSoundtrack(event) {
+  if (event.id == "ambient") {
+    soundtrack = sound.play('ambient');
+    soundtrack.volume = 0.1;
+  }
+  if (event.id == "music") {
+    soundtrack = sound.play('music');
+    soundtrack.volume = 0.1;
+  }
+  
+}
+
+
+
+
+////// LIGHTING
 function addLights() {
   poleLight = new PoleLight();
   
@@ -155,6 +185,10 @@ function addLights() {
     spotLight.angle = Math.PI / 4;
   }
 }
+
+
+
+
 
 function drawAnimal() {
   if(pickedAnimal == "Sheep"){
@@ -525,14 +559,14 @@ function eventMsg(msg) {
 
 function setDifficulty(diff){
   if(diff == "Easy"){
-    numLevels = 100;
+    numLevels = 16;
     listNumCar = [0,2,3];
     listSpeed = [0.04, 0.05, 0.06, 0.12];
     speedListWood = [0.01, 0.02, 0.05];
     diffModifier = 0.035;
   }
   else if (diff == "Normal"){
-    numLevels = 16;
+    numLevels = 14;
     listNumCar = [1,2,3];
     listSpeed = [0.06, 0.08, 0.15];
     speedListWood = [0.03, 0.04, 0.1];
