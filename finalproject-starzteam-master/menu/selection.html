@@ -6,7 +6,14 @@
     <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
     <title>Credits</title>
     <link rel="shortcut icon" href="#">
-
+    <script src="finalproject-starzteam-master/three.js"></script>
+    <script src="finalproject-starzteam-master/libs/soundjs.min.js"></script>
+    <script src="finalproject-starzteam-master/OrbitControls.js"></script>
+    <script src="finalproject-starzteam-master/thingsRoad.js"></script>
+    <script src="finalproject-starzteam-master/sheep.js"></script>
+    <script src="finalproject-starzteam-master/chicken.js"></script>
+    <script src="finalproject-starzteam-master\fox.js"></script>
+    <script src="finalproject-starzteam-master/car.js"></script>
         <style>
             html, body {
                 overflow: hidden;
@@ -32,7 +39,9 @@
 
             select#dayNightSel option[value="false"] { background-color:white; width:100px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
             select#dayNightSel option[value="true"] { background-color:white; width:100px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
-            select#dayNightSel option[value="false"] { background-color:white; width:100px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+           
+            select#fog option[value="true"] { background-color:white; width:100px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+            select#fog option[value="false"] { background-color:white; width:100px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
 
 
             select#difficult option[value="Easy"] { width:90px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
@@ -55,12 +64,21 @@
 
         <div id="selection2">
         <label>Select the light</label></br>
-        <select id="dayNightSel" size="3">
+        <select id="dayNightSel" size="2">
           <option style="background-image:url(icon/sun.png);" value="false"  ></option>
           <option style="background-image:url(icon/night.png);" value="true" selected></option>
-          <option style="background-image:url(icon/mist.png);" value="true"></option>
-        </select></br>
+          
+        </select>
         </div>
+
+        <div id="selection2mezzo">
+          <label>Foggy</label></br>
+          <select id="fog" size="2">
+          <option style="background-image:url(icon/mist.png);" value="true" selected></option>
+          <option style="background-image:url(icon/normal.png);" value="false" selected></option>
+          </select>
+        </div>
+
         <div id="selection3">
         <label>Select Difficulty</label></br>
         <select id="difficult" size="3">
@@ -70,10 +88,56 @@
         </select>
       </div>
 
-    <div id="play" onclick="window.location.href = 'selection.html';" onmouseover="document.getElementById('player').play();"><p>Play</p></div>
+    <div id="play" onclick="runGame()" ><p>Play</p></div>/<!--onmouseover="document.getElementById('player').play();"-->
     <div id="back" onclick="window.location.href = 'menuIndex.html';" onmouseover="document.getElementById('playercredits').play();"><p>BACK</p></div>
 
-    <link rel="stylesheet" href="menu.css" type="text/css" />
 
+  </div>
+  <div id="world" class="world" style="display: none;">
+    <a id="toggle toggle-night" class="toggle toggle-night" style="display: none;"></a>
+    <a id="toggle-menu" class="toggle-menu" style="display: none;"></a>
+    <div id="score">
+      <p style="display:inline-block;">Current Score :</p> <p id="cScore" style="display:inline-block;"></p>
+      <p style="display:inline-block; margin-left:5%;">High Score :</p><p id="hScore" style="display:inline-block;"></p>
+    </div>
+    <div id="event" style="display: none; font-size: 45px;">Text</div>
+    <div id="resume" onclick="resumeAnim()" onmouseover="this.style.backgroundColor = '#D2691E'" onmouseout="this.style.backgroundColor = 'gold'" style="display: none;">Resume</div>
+    <!--<div id="restart" onclick="restartGame()" onmouseover="this.style.backgroundColor = '#D2691E'" onmouseout="this.style.backgroundColor = 'gold'" style="display: none;">Restart</div>-->
+    <div id="menuBtn" onclick="location.reload();" onmouseover="this.style.backgroundColor = '#D2691E'" onmouseout="this.style.backgroundColor = 'gold'" style="display: none;">Menu</div>
+  </div>
+  
+  </div>
+
+    <link rel="stylesheet" href="menu.css" type="text/css" />
+    <script type="text/javascript" src="finalproject-starzteam-master/crossyRoad.js"></script>
+<script>
+      var runGame = function(){
+        document.getElementById("play").style.display = "none";
+        document.getElementById("selection2").style.display = "none";
+        document.getElementById("selection3").style.display = "none";
+        document.getElementById("selection2mezzo").style.display = "none";
+        document.getElementById("selection1").style.display = "none";
+        document.getElementById("back").style.display = "none";
+        var opt = document.getElementById("characterSel");
+        var charSelected = opt.options[opt.selectedIndex].value;
+
+        opt = document.getElementById("dayNightSel");
+        var condSelected = opt.options[opt.selectedIndex].value;
+
+        opt = document.getElementById("fog");
+        var fogSelected = opt.options[opt.selectedIndex].value;
+
+        opt = document.getElementById("difficult");
+        var diffSelected = opt.options[opt.selectedIndex].value;
+
+
+
+        startGame(charSelected, condSelected, diffSelected,fogSelected);
+        document.getElementById("world").style.display = "block";
+        document.getElementById("toggle toggle-night").style.display = "block";
+        document.getElementById("score").style.display = "block";
+        document.getElementById("toggle-menu").style.display = "block";
+      }
+      </script>
 </body>
 </html> 

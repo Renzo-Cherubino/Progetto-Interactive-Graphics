@@ -59,7 +59,7 @@ var width,
 
 var crash = false;
 
-function startGame(chosedAnimal, dayNight, difficulty){
+function startGame(chosedAnimal, dayNight, difficulty, foggyDay){
   pickedAnimal = chosedAnimal;
   night = (dayNight == 'true');
   setDifficulty(difficulty);
@@ -69,6 +69,8 @@ function startGame(chosedAnimal, dayNight, difficulty){
     night = false;
     toggleNight();
   }
+  if (foggyDay=='true') foggyDay=true
+  else foggyDay=false;
 }
 
 function init() {
