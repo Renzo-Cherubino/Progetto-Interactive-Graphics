@@ -48,7 +48,7 @@ class Car {
       shading: THREE.FlatShading
     });
 
-    var colors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0x008080];
+    var colors = [0xE8E8E8, 0x181717, 0x232C61, 0xFFFF00, 0xF91414];
     var index = Math.floor(Math.random()*colors.length);
 
     this.bodyMaterial = new THREE.MeshStandardMaterial({

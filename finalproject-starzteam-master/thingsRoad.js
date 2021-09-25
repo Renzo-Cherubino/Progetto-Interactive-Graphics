@@ -121,190 +121,19 @@ class Road {
         this.prec.add(tunnel.trunk);
       }
 
-      poleLight = new PoleLight(posZ);
-      this.prec.add(poleLight.pole);
+      //poleLight = new PoleLight(posZ);
+      //this.leftGrass.add(poleLight.pole);
+      //scene.add(poleLight);
+      //this.prec.add(poleLight.pole);
     }
 
     this.trees = [];
     var tree = new Tree();
     this.rightGrass.add(tree.group);
     this.trees.push(tree);
-    tree = new Tree();
-    this.leftGrass.add(tree.group);
-    this.trees.push(tree);
   }
 
   doCheck(){
-
-  }
-}
-
-class River{
-  constructor(positionZ) {
-    this.occupiedSpace = 0;
-    this.group = new THREE.Group();
-    this.group.position.y = -1.35;
-    this.group.scale.set(1.5, 1.5, 1.5);
-    this.group.rotation.y = rad(90);
-    this.group.position.z = positionZ;
-
-    texture = new THREE.TextureLoader().load( "texture/waterCartoon.png" );
-
-    texture.wrapS = THREE.RepeatWrapping;
-    texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set( 1, 10 );
-    this.materialRiver = new THREE.MeshStandardMaterial( { map: texture } );
-
-
-    this.materialMiddle = new THREE.MeshPhongMaterial({
-      color: 0xbaf455,
-      flatShading: true
-    });
-
-    this.materialLeft = new THREE.MeshPhongMaterial({
-      color: 0x99C846,
-      flatShading: true
-    });
-
-    this.materialRight = new THREE.MeshPhongMaterial({
-      color: 0x99C846,
-      flatShading: true
-    });
-
-    this.vAngle = 0;
-
-    this.drawParts(posZ);
-
-  }
-
-  drawParts() {
-    this.middleGrass = new THREE.Mesh(new THREE.BoxBufferGeometry( widthGrass, highGrass, depthGrass), this.materialMiddle);
-    this.middleGrass.receiveShadow = true;
-    this.group.add(this.middleGrass);
-
-    this.leftGrass = new THREE.Mesh(new THREE.BoxBufferGeometry( widthGrass, highGrass, depthGrass), this.materialLeft);
-    this.leftGrass.position.z = - distGrass;
-    this.leftGrass.receiveShadow = true;
-    this.middleGrass.add(this.leftGrass);
-
-    this.rightGrass = new THREE.Mesh(new THREE.BoxBufferGeometry( widthGrass, highGrass, depthGrass), this.materialRight);
-    this.rightGrass.position.z = distGrass;
-    this.rightGrass.receiveShadow = true;
-    this.middleGrass.add(this.rightGrass);
-
-    this.occupiedSpace += widthGrass;
-
-    this.river = new THREE.Mesh(new THREE.BoxBufferGeometry( widthRiver, highRiver, depthRiver),  this.materialRiver);
-    this.river.receiveShadow = true;
-    this.river.position.x = -0.75*widthRiver;
-    this.river.position.y = -0.1;
-    this.middleGrass.add(this.river);
-    this.occupiedSpace += widthRiver;
-
-    this.sideX = 1.5*depthRiver/2;
-    this.sideZ = 1.5*widthRiver/2;
-
-    this.vehicles = [];
-
-    var listInitial = [20];
-    var listDistance = [6, 7, 8, 9, 10, 11, 12];
-    var newSpeed;
-    var newInitial;
-    var newDirection;
-    var totalDistance = 0;
-
-    var trunk;
-
-    //First side
-    if(Math.floor(Math.random()*2))
-      newDirection = 1;
-    else
-      newDirection = -1
-
-    newSpeed = speedListWood[Math.floor(Math.random()*speedListWood.length)];
-    newInitial = newDirection*listInitial[Math.floor(Math.random()*listInitial.length)];
-
-    var i;
-    for(i = 0; i < numWood; i++){
-
-      trunk = new Wood(1.2, newDirection, newSpeed);
-      trunk.group.position.z = newInitial + totalDistance;
-      this.vehicles.push(trunk);
-
-      totalDistance += -newDirection*listDistance[Math.floor(Math.random()*listDistance.length)];
-
-    }
-
-    totalDistance = 0;
-
-    //Second side
-    if(Math.floor(Math.random()*2))
-      newDirection = 1;
-    else
-      newDirection = -1
-
-    newSpeed = speedListWood[Math.floor(Math.random()*speedListWood.length)];
-    newInitial = newDirection*listInitial[Math.floor(Math.random()*listInitial.length)];
-
-    for(i = 0; i < numWood; i++){
-
-      trunk = new Wood(-1.2, newDirection, newSpeed);
-      trunk.group.position.z = newInitial + totalDistance;
-      this.vehicles.push(trunk);
-
-      totalDistance += -newDirection*listDistance[Math.floor(Math.random()*listDistance.length)];
-
-    }
-
-    var length = this.vehicles.length;
-    var i;
-    for(i = 0; i < length; i++){
-      this.river.add(this.vehicles[i].group);
-    }
-
-    this.trees = [];
-
-    var now = -depthGrass/2+1.5;
-    var tree = null;
-    while(now <= depthGrass/3){
-      if(Math.floor(Math.random()*2) == 0){
-        tree = new Tree();
-        this.rightGrass.add(tree.group);
-        this.trees.push(tree);
-      }
-      now+=4;
-    }
-
-    now = -depthGrass/3;
-    while(now <= depthGrass/2+1.5){
-      if(Math.floor(Math.random()*2) == 0){
-        tree = new Tree();
-        this.leftGrass.add(tree.group);
-        this.trees.push(tree);
-      }
-      now+=4;
-    }
-
-  }
-
-  doCheck(referencePositionAnimal){
-
-    var referencePosition = new THREE.Vector3();
-    this.river.getWorldPosition(referencePosition);
-
-    var checkIsWood = false;
-    var length = this.vehicles.length;
-    var i;
-    for(i = 0; i < length; i++){
-      checkIsWood = checkIsWood || this.vehicles[i].isWood;
-    }
-
-    if( (Math.abs(referencePosition.x - referencePositionAnimal.x) <= this.sideX) &&
-        (Math.abs(referencePosition.z - referencePositionAnimal.z) <= this.sideZ) &&
-        referencePositionAnimal.y <= animal.restHeight && !checkIsWood){
-          crash = true;
-          splash = true;
-    }
 
   }
 }
@@ -492,7 +321,7 @@ class PoleLight {
     const sidePole = 0.2;
 
     this.pole = new THREE.Mesh( new THREE.BoxBufferGeometry( sidePole, heightPole, sidePole ), this.materialPole );
-    this.pole.position.set(posZ, heightPole/2, 1);
+    this.pole.position.set(20, heightPole/2, posZ);   ////////// posZ, heightPole/2, 1
     this.pole.castShadow = true;
     this.pole.receiveShadow = true;
     this.pole.rotation.set(0, rad(-90), 0)
@@ -505,7 +334,7 @@ class PoleLight {
     this.poleHead.receiveShadow = true;
     this.pole.add(this.poleHead);
 
-    /*
+    
     this.spotLight = new THREE.SpotLight( 0xffffff, 0.6 );
     this.spotLight.position.set( 0, 0, 0 );
     this.spotLight.angle = Math.PI / 4;
@@ -521,9 +350,9 @@ class PoleLight {
 
     scene.add(this.spotLight.target);
     this.spotLight.target.position.set(-5, -2, 0);
-*/
+
   }
-/*
+
   turnOff(){
     //this.spotLight.color = 0x000000;
     this.spotLight.visible = false;
@@ -535,7 +364,7 @@ class PoleLight {
     this.spotLight.castShadow = true;
     this.spotLight.angle = Math.PI / 4;
   }
-  */
+  
 }
 
 

@@ -1,5 +1,6 @@
 'use strict';
 
+
 var scene,
     camera,
     renderer,
@@ -158,7 +159,7 @@ function addLights() {
   // poleLight = new PoleLight();
 
   // Ambient light
-  spotLight = new THREE.SpotLight( 0xffffff, 1 );
+  spotLight = new THREE.SpotLight( 0xFCCDA4, 1 );
   spotLight.position.set( 80, 100, 450 );
   spotLight.penumbra = 0.05;
   spotLight.decay = 2;
@@ -210,6 +211,7 @@ function drawAnimal() {
   }
   scene.add(animal.group);
 }
+
 
 function getNewTerrain(posZ = -1){
   var track;
@@ -306,6 +308,8 @@ function drawTerrain() {
   for(; i < tracks.length; i++){
     initialValue++;
     disableLevelToChildren(tracks[i].group, 0);
+    for(var j = initialValue; j < initialValue + numOfLevelPrec + numOfLevelVisible; j++)
+      enableLevelToChildren(tracks[i].group, j);
   }
 
 }
@@ -397,7 +401,7 @@ function render() {
 
     }
 
-    camera.position.set(-10, 20, -3+tot); // posizione camera
+    camera.position.set(-10, 20, tot); // posizione camera
 
     if(referencePositionAnimal.z > limitMax){
       actualTrack++;
@@ -452,10 +456,6 @@ function render() {
     }
   }
 
-  else{
-    animal.sunkAnimation();
-    activateSplash(referencePositionAnimal.z, referencePositionAnimal.x, 150);
-  }
   renderer.render(scene, camera);
 }
 
@@ -577,7 +577,7 @@ function setDifficulty(diff){
     diffModifier = 0.035;
   }
   else if (diff == "Normal"){
-    numLevels = 14;
+    numLevels = 16;
     listNumCar = [1,2,3];
     listSpeed = [0.06, 0.08, 0.15];
     speedListWood = [0.03, 0.04, 0.1];
