@@ -28,7 +28,7 @@ class Road {
     this.group.rotation.y = rad(-90);
 
     this.materialAsphalt = new THREE.MeshPhongMaterial({color: 0x393D49, flatShading: true});
-    this.materialLine = new THREE.MeshPhongMaterial({color: 0x454A59, flatShading: true });
+    this.materialLine = new THREE.MeshPhongMaterial({color: 0xf0f0f0, flatShading: true });
     this.materialMiddle = new THREE.MeshPhongMaterial({color: 0xbaf455, flatShading: true});
     this.materialLeft = new THREE.MeshPhongMaterial({color: 0x99C846, flatShading: true});
     this.materialRight = new THREE.MeshPhongMaterial({color: 0x99C846, flatShading: true});
@@ -120,6 +120,9 @@ class Road {
         var tunnel = new Tunnel(posZ, i);
         this.prec.add(tunnel.trunk);
       }
+
+      poleLight = new PoleLight(posZ);
+      this.prec.add(poleLight.pole);
     }
 
     this.trees = [];
@@ -170,7 +173,7 @@ class River{
 
     this.vAngle = 0;
 
-    this.drawParts();
+    this.drawParts(posZ);
 
   }
 
@@ -414,7 +417,7 @@ class Tree {
   }
 
   drawParts() {
-    this.trunk = new THREE.Mesh( new THREE.BoxBufferGeometry( 1.0, 1.0, 1.0 ), this.materialTree );
+    this.trunk = new THREE.Mesh( new THREE.BoxBufferGeometry( 1.0, 1.0, 3.0 ), this.materialTree );
     this.trunk.position.z = -1.0;
     this.trunk.castShadow = true;
     this.trunk.receiveShadow = true;
@@ -425,14 +428,11 @@ class Tree {
 
     this.height = treeHeights[Math.floor(Math.random()*treeHeights.length)];
     var i = 0;
-    while(i < this.height){
-      this.crown = new THREE.Mesh( new THREE.BoxBufferGeometry( 1.5, 1.5, 1.5), this.materialCrown);
-      this.crown.position.z = i;
-      this.crown.castShadow = true;
-      this.crown.receiveShadow = false;
-      this.group.add(this.crown);
-      i+=1.5;
-    }
+    this.crown = new THREE.Mesh( new THREE.BoxBufferGeometry( 1.5, 1.5, 1.5), this.materialCrown);
+    this.crown.position.z = 1;
+    this.crown.castShadow = true;
+    this.crown.receiveShadow = false;
+    this.group.add(this.crown);
   }
 }
 
@@ -468,8 +468,8 @@ class Wall {
     const widthWall = 400;
     const depthWall = 0.5;
 
-    this.wall = new THREE.Mesh( new THREE.BoxBufferGeometry( widthWall, heightWall, depthWall ), this.materialWall );
-    this.wall.position.set(34, heightWall/2, 200);
+    this.wall = new THREE.Mesh( new THREE.BoxBufferGeometry( widthWall, heightWall+5, depthWall ), this.materialWall );
+    this.wall.position.set(34, heightWall/2+2, 200);
     this.wall.castShadow = true;
     this.wall.receiveShadow = true;
     this.wall.rotation.set(0, rad(-90), 0)
@@ -481,7 +481,7 @@ class Wall {
 
 class PoleLight {
 
-  constructor(){
+  constructor(posZ){
 
     this.materialPole = new THREE.MeshPhongMaterial({
       color: 0x808080,
@@ -492,7 +492,7 @@ class PoleLight {
     const sidePole = 0.2;
 
     this.pole = new THREE.Mesh( new THREE.BoxBufferGeometry( sidePole, heightPole, sidePole ), this.materialPole );
-    this.pole.position.set(-5, heightPole/2, -8);
+    this.pole.position.set(posZ, heightPole/2, 1);
     this.pole.castShadow = true;
     this.pole.receiveShadow = true;
     this.pole.rotation.set(0, rad(-90), 0)
@@ -505,6 +505,7 @@ class PoleLight {
     this.poleHead.receiveShadow = true;
     this.pole.add(this.poleHead);
 
+    /*
     this.spotLight = new THREE.SpotLight( 0xffffff, 0.6 );
     this.spotLight.position.set( 0, 0, 0 );
     this.spotLight.angle = Math.PI / 4;
@@ -520,9 +521,9 @@ class PoleLight {
 
     scene.add(this.spotLight.target);
     this.spotLight.target.position.set(-5, -2, 0);
-
+*/
   }
-
+/*
   turnOff(){
     //this.spotLight.color = 0x000000;
     this.spotLight.visible = false;
@@ -534,6 +535,7 @@ class PoleLight {
     this.spotLight.castShadow = true;
     this.spotLight.angle = Math.PI / 4;
   }
+  */
 }
 
 

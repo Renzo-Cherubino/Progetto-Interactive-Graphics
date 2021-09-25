@@ -36,7 +36,7 @@ var poleLight,
     ambientLight,
     spotLight;
 
-var numOfLevelVisible = 17,
+var numOfLevelVisible = 8,
     numOfLevelPrec = 3, //so you will render numOfLevelVisible + numOfLevelPrec tracks
     actualLevelCamera = 0;
 
@@ -89,7 +89,8 @@ function init() {
   }
   }
   camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-  camera.position.set(-15, 32, -40); // orientamento camera -15 32 -30
+  camera.position.set(-15, 50, -30); // orientamento camera -15 32 -30
+  ///////////////// prova -15 32 -15
   
 
   tot = -20 ;
@@ -153,35 +154,36 @@ function startSoundtrack(event) {
 
 ////// LIGHTING
 function addLights() {
-  poleLight = new PoleLight();
   
+  // poleLight = new PoleLight();
+
+  // Ambient light
   spotLight = new THREE.SpotLight( 0xffffff, 1 );
-  spotLight.position.set( 60, 30, 80 );
+  spotLight.position.set( 80, 100, 450 );
   spotLight.penumbra = 0.05;
   spotLight.decay = 2;
-  spotLight.distance = 500;
-  spotLight.shadow.mapSize.width = 1024;
-  spotLight.shadow.mapSize.height = 1024;
+  spotLight.distance = 5000;
+  spotLight.shadow.mapSize.width = 4096;
+  spotLight.shadow.mapSize.height = 4096;
   spotLight.shadow.camera.near = 10;
-  spotLight.shadow.camera.far = 300;
+  spotLight.shadow.camera.far = 2000;
   scene.add( spotLight );
 
   if(night){
     ambientLight = new THREE.AmbientLight( 0xffffff, 0.6 );
     scene.add( ambientLight );
 
-    poleLight.turnOn();
+    //poleLight.turnOn();
 
     spotLight.visible = false;
     spotLight.castShadow = false;
     spotLight.angle = 0;
-
   }
   else{
-    ambientLight = new THREE.AmbientLight( 0xffffff, 1.1 );
+    ambientLight = new THREE.AmbientLight( 0xffffff, 0.9 );
     scene.add( ambientLight );
 
-    poleLight.turnOff();
+    //poleLight.turnOff();
 
     spotLight.visible = true;
     spotLight.castShadow = true;
@@ -395,7 +397,7 @@ function render() {
 
     }
 
-    camera.position.set(-10, 20, -6+tot); // posizione camera
+    camera.position.set(-10, 20, -3+tot); // posizione camera
 
     if(referencePositionAnimal.z > limitMax){
       actualTrack++;
@@ -517,7 +519,7 @@ function toggleNight() {
   }
   else{
     poleLight.turnOff();
-    ambientLight.intensity = 1.1;
+    ambientLight.intensity = 0.9;
     spotLight.visible = true;
     spotLight.castShadow = true;
     spotLight.angle = Math.PI / 4;
