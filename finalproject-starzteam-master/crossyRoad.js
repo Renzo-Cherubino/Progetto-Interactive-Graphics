@@ -89,7 +89,7 @@ function init() {
   }
   }
   camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-  camera.position.set(-15, 32, -30); // orientamento camera -15 32 -30
+  camera.position.set(-15, 32, -40); // orientamento camera -15 32 -30
   
 
   tot = -20 ;
@@ -378,7 +378,7 @@ function render() {
 
   if(!crash){
 
-    if ((tot > referencePositionAnimal.z + 1.5 ) || referencePositionAnimal.x >33 || referencePositionAnimal.x <-33) {
+    if ((tot > referencePositionAnimal.z + 2.5 ) || referencePositionAnimal.x >33 || referencePositionAnimal.x <-33) {
       crash = true;
       pause = true;
       outrun = true;
@@ -395,7 +395,7 @@ function render() {
 
     }
 
-    camera.position.set(-10, 20, -3+tot); // posizione camera
+    camera.position.set(-10, 20, -6+tot); // posizione camera
 
     if(referencePositionAnimal.z > limitMax){
       actualTrack++;
@@ -442,11 +442,11 @@ function render() {
 
   else if(!splash){
     if(!outrun) {
-      animal.crashAnimation();
       if(!flag_dead) {
         sound.play('death');
         flag_dead = true;
       }
+      animal.crashAnimation();
     }
   }
 
@@ -585,7 +585,7 @@ function setDifficulty(diff){
     numLevels = 26;
     listNumCar = [2,3,4];
     listSpeed = [0.15, 0.18, 0.25];
-    speedListWood = [0.05, 0.06, 0.13];
+    //////////////////// speedListWood = [0.05, 0.06, 0.13];
     diffModifier = 0.05;
   }
 }

@@ -12,12 +12,17 @@ var highestScore = 0;
 var contatore = 0;
 var tot = 0;
 var legRotation = 0;
+var leftArmRotation = 0;
+var rightArmRotation = 0;
 var oldPos = 0;
-var goingFastChicken = 2.2;
+var goingFastChicken = 1.0; 
+var step = 0;
+var step_iter = 0;
 
 var referencePosition = new THREE.Vector3();
 
 class Chicken{
+
   constructor(){
     this.group = new THREE.Group();
     this.group.position.y = -0.55; //x++ right with respect of the camera, y++ height to the high, z++ front closer to the camera (x, y, z)
@@ -38,26 +43,13 @@ class Chicken{
     this.sideY = boxReferenceHeight/2;
     this.sideZ = boxReferenceDepth/2;
 
-    this.skinMaterial = new THREE.MeshStandardMaterial({
-      color: 0xffffff,
-      roughness: 1,
-      shading: THREE.FlatShading
-    });
-    this.redMaterial = new THREE.MeshStandardMaterial({
-      color: 0xff0000,
-      roughness: 1,
-      shading: THREE.FlatShading
-    });
-    this.orangeMaterial = new THREE.MeshStandardMaterial({
-      color: 0xffa500,
-      roughness: 1,
-      shading: THREE.FlatShading
-    });
-    this.eyeMaterial = new THREE.MeshStandardMaterial({
-      color: 0x4b4553,
-      roughness: 1,
-      shading: THREE.FlatShading
-    });
+    this.skinMaterial = new THREE.MeshStandardMaterial({color: 0xf9d9ae, roughness: 1, shading: THREE.FlatShading});
+    this.pinkMaterial = new THREE.MeshStandardMaterial({color: 0xff66ff, roughness: 1, shading: THREE.FlatShading});
+    this.blackMaterial = new THREE.MeshStandardMaterial({color: 0x1a1a1a, roughness: 1, shading: THREE.FlatShading});
+    this.redMaterial = new THREE.MeshStandardMaterial({color: 0xff0000, roughness: 1, shading: THREE.FlatShading});
+    this.orangeMaterial = new THREE.MeshStandardMaterial({color: 0xffa500, roughness: 1, shading: THREE.FlatShading});
+    this.eyeMaterial = new THREE.MeshStandardMaterial({color: 0x4b4553, roughness: 1, shading: THREE.FlatShading});
+    this.hairMaterial = new THREE.MeshStandardMaterial({color: 0xbdb8af, roughness: 1, shading: THREE.FlatShading});
 
     this.vAngle = 0;
     this.restHeight = this.group.position.y;
@@ -66,157 +58,171 @@ class Chicken{
     this.drawHead();
     this.drawLegs();
   }
+
   drawBody() {
-    const bodyGeometry = new THREE.BoxBufferGeometry(0.7, 0.5, 1);
-    const body = new THREE.Mesh(bodyGeometry, this.skinMaterial);
+    const bodyGeometry = new THREE.BoxBufferGeometry(1.4, 1.2, 1.1);
+    const body = new THREE.Mesh(bodyGeometry, this.pinkMaterial);
     body.castShadow = true;
     body.receiveShadow = true;
+    body.position.set(0, 1.5, 0);
     this.group.add(body);
 
-    const leftWingGeometry = new THREE.BoxBufferGeometry(0.23, 0.16, 0.33);
-    this.leftWing = new THREE.Mesh(leftWingGeometry, this.skinMaterial);
-    //this.leftWing.castShadow = true;
-    this.leftWing.receiveShadow = true;
-    this.leftWing.position.set(0.4, 0, 0);
-    body.add(this.leftWing);
+    const skirtGeometry = new THREE.BoxBufferGeometry(1.39, 0.85, 1.09);
+    this.skirt = new THREE.Mesh(skirtGeometry, this.redMaterial);
+    //this.skirt.castShadow = true;
+    this.skirt.receiveShadow = true;
+    this.skirt.position.set(0, -1, 0);
+    body.add(this.skirt);
 
-    const rightWingGeometry = new THREE.BoxBufferGeometry(0.23, 0.16, 0.33);
-    this.rightWing = new THREE.Mesh(rightWingGeometry, this.skinMaterial);
-    //this.rightWing.castShadow = true;
+    /////////////////// DA RINOMINARE
+    const leftWingGeometry = new THREE.BoxBufferGeometry(0.2, 1, 0.2);
+    leftWingGeometry.applyMatrix( new THREE.Matrix4().makeTranslation(0.8, -0.6, 0.2) );
+    this.leftWing = new THREE.Mesh(leftWingGeometry, this.pinkMaterial);
+    //this.leftArm.castShadow = true;
+    this.leftWing.receiveShadow = true;
+    this.leftWing.position.set(0, 0.3, 0);
+    //body.add(this.leftWing);
+    ///////////this.leftWing.applyMatrix(new THREE.Matrix4().makeTranslation( 0, 1, 0 ));
+    ///////////this.leftArmMesh = new THREE.Mesh(this.leftWing, this.pinkMaterial);
+    body.add(this.leftWing);
+    ///////////body.add(this.leftArmMesh);  
+
+    const rightWingGeometry = new THREE.BoxBufferGeometry(0.2, 1, 0.2);
+    this.rightWing = new THREE.Mesh(rightWingGeometry, this.pinkMaterial);
+    //this.rightArm.castShadow = true;
     this.rightWing.receiveShadow = true;
-    this.rightWing.position.set(-0.4, 0, 0);
+    this.rightWing.position.set(-0.8, -0.1, 0.7);
+    this.rightWing.rotation.x = -240;
     body.add(this.rightWing);
 
+    const leftHandGeometry = new THREE.BoxBufferGeometry(0.2, 0.2, 0.2);
+    this.leftHand = new THREE.Mesh(leftHandGeometry, this.skinMaterial);
+    //this.leftArm.castShadow = true;
+    this.leftHand.receiveShadow = true;
+    this.leftHand.position.set(0.8, -1.2, 0.2);
+    this.leftWing.add(this.leftHand);
+
+    const rightHandGeometry = new THREE.BoxBufferGeometry(0.2, 0.2, 0.2);
+    this.rightHand = new THREE.Mesh(rightHandGeometry, this.skinMaterial);
+    //this.rightArm.castShadow = true;
+    this.rightHand.receiveShadow = true;
+    this.rightHand.position.set(0, -0.6, 0);
+    this.rightWing.add(this.rightHand);
+
+    const stickGeometry = new THREE.BoxBufferGeometry(0.19, 1.8, 0.19);
+    this.stick = new THREE.Mesh(stickGeometry, this.blackMaterial);
+    //this.rightArm.castShadow = true;
+    this.stick.receiveShadow = true;
+    this.stick.position.set(0, -0.3, -0.8);
+    this.stick.rotation.x = -1.9;
+    this.rightHand.add(this.stick);
   }
+
   drawHead() {
-    const headGeometry = new THREE.BoxBufferGeometry(0.7, 0.5, 0.5);
+    const headGeometry = new THREE.BoxBufferGeometry(0.65, 0.65, 0.65);
     const head = new THREE.Mesh(headGeometry, this.skinMaterial);
     head.castShadow = true;
     head.receiveShadow = true;
-    head.position.set(0, 0.5, 0.25);
+    head.position.set(0, 2.2, 0.5);
     this.group.add(head);
 
-    const noseGeometry = new THREE.BoxBufferGeometry(0.17, 0.17, 0.24);
-    const nose = new THREE.Mesh(noseGeometry, this.orangeMaterial);
-    //head.castShadow = true;
-    nose.receiveShadow = true;
-    nose.position.set(0, 0, 0.37);
-    head.add(nose);
+    const hair1Geometry = new THREE.BoxBufferGeometry(0.7, 0.2, 0.85);
+    const hair1 = new THREE.Mesh(hair1Geometry, this.hairMaterial);
+    hair1.castShadow = true;
+    hair1.receiveShadow = true;
+    hair1.position.set(0, 0.4, -0.1);
+    head.add(hair1);
 
-    const wattlesGeometry = new THREE.BoxBufferGeometry(0.17, 0.17, 0.17);
-    const wattles = new THREE.Mesh(wattlesGeometry, this.redMaterial);
-    //wattles.castShadow = true;
-    wattles.receiveShadow = true;
-    wattles.position.set(0, -0.17, 0.335);
-    head.add(wattles);
+    const hair2Geometry = new THREE.BoxBufferGeometry(0.7, 1, 0.2);
+    const hair2 = new THREE.Mesh(hair2Geometry, this.hairMaterial);
+    hair2.castShadow = true;
+    hair2.receiveShadow = true;
+    hair2.position.set(0, 0, -0.45);
+    head.add(hair2);
+
+    const hair3Geometry = new THREE.BoxBufferGeometry(0.3, 0.3, 0.3);
+    const hair3 = new THREE.Mesh(hair3Geometry, this.hairMaterial);
+    hair3.castShadow = true;
+    hair3.receiveShadow = true;
+    hair3.position.set(0, 0.7, -0.4);
+    head.add(hair3);
 
     const leftEyeGeometry = new THREE.BoxBufferGeometry(0.05, 0.05, 0.05);
     const leftEye = new THREE.Mesh(leftEyeGeometry, this.eyeMaterial);
     //leftEye.castShadow = true;
     leftEye.receiveShadow = true;
-    leftEye.position.set(0.37, 0.1, 0.1);
+    leftEye.position.set(0.17, 0.1, 0.35);
     head.add(leftEye);
 
     const rightEyeGeometry = new THREE.BoxBufferGeometry(0.05, 0.05, 0.05);
     const rightEye = new THREE.Mesh(rightEyeGeometry, this.eyeMaterial);
     //rightEye.castShadow = true;
     rightEye.receiveShadow = true;
-    rightEye.position.set(-0.37, 0.1, 0.1);
+    rightEye.position.set(-0.17, 0.1, 0.35);
     head.add(rightEye);
 
-    const crestGeometry = new THREE.BoxBufferGeometry(0.14, 0.14, 0.3);
-    const crest = new THREE.Mesh(crestGeometry, this.redMaterial);
-    //crest.castShadow = true;
-    crest.receiveShadow = true;
-    crest.position.set(0, 0.32, 0); //sarebbe 0.5/2 + 0.14/2 = 0.32
-    head.add(crest);
   }
+
   drawLegs() {
-    const leftLegGeometry = new THREE.CylinderBufferGeometry(0.06, 0.06, 0.35, 16);
-    this.leftLeg = new THREE.Mesh(leftLegGeometry, this.orangeMaterial);
+    const leftLegGeometry = new THREE.BoxBufferGeometry(0.2, 1.5, 0.35);
+    this.leftLeg = new THREE.Mesh(leftLegGeometry, this.blackMaterial);
     this.leftLeg.castShadow = true;
     this.leftLeg.receiveShadow = true;
-    this.leftLeg.position.set(0.175, -0.425, 0);
+    this.leftLeg.position.set(0.4, 0, 0);
     this.group.add(this.leftLeg);
 
-    const leftPawGeometry = new THREE.BoxBufferGeometry(0.27, 0.07, 0.2);
-    const leftPaw = new THREE.Mesh(leftPawGeometry, this.orangeMaterial);
-    //leftPaw.castShadow = true;
-    leftPaw.receiveShadow = true;
-    leftPaw.position.set(0, -0.2125, 0);
-    this.leftLeg.add(leftPaw);
-
-    const leftNail1Geometry = new THREE.BoxBufferGeometry(0.0675, 0.07, 0.1);
-    const leftNail1 = new THREE.Mesh(leftNail1Geometry, this.orangeMaterial);
-    //leftNail1.castShadow = true;
-    leftNail1.receiveShadow = true;
-    leftNail1.position.set(0.10125, 0, 0.15);
-    leftPaw.add(leftNail1);
-
-    const leftNail2Geometry = new THREE.BoxBufferGeometry(0.0675, 0.07, 0.1);
-    const leftNail2 = new THREE.Mesh(leftNail2Geometry, this.orangeMaterial);
-    //leftNail2.castShadow = true;
-    leftNail2.receiveShadow = true;
-    leftNail2.position.set(-0.10125, 0, 0.15);
-    leftPaw.add(leftNail2);
-
-    const rightLegGeometry = new THREE.CylinderBufferGeometry(0.06, 0.06, 0.35, 16);
-    this.rightLeg = new THREE.Mesh(rightLegGeometry, this.orangeMaterial);
+    const rightLegGeometry = new THREE.BoxBufferGeometry(0.2, 1.5, 0.35);
+    this.rightLeg = new THREE.Mesh(rightLegGeometry, this.blackMaterial);
     this.rightLeg.castShadow = true;
     this.rightLeg.receiveShadow = true;
-    this.rightLeg.position.set(-0.175, -0.425, 0);
+    this.rightLeg.position.set(-0.4, 0, 0);   
     this.group.add(this.rightLeg);
-
-    const rightPawGeometry = new THREE.BoxBufferGeometry(0.27, 0.07, 0.2);
-    const rightPaw = new THREE.Mesh(rightPawGeometry, this.orangeMaterial);
-    //rightPaw.castShadow = true;
-    rightPaw.receiveShadow = true;
-    rightPaw.position.set(0, -0.2125, 0);
-    this.rightLeg.add(rightPaw);
-
-    const rightNail1Geometry = new THREE.BoxBufferGeometry(0.0675, 0.07, 0.1);
-    const rightNail1 = new THREE.Mesh(rightNail1Geometry, this.orangeMaterial);
-    //rightNail1.castShadow = true;
-    rightNail1.receiveShadow = true;
-    rightNail1.position.set(0.10125, 0, 0.15);
-    rightPaw.add(rightNail1);
-
-    const rightNail2Geometry = new THREE.BoxBufferGeometry(0.0675, 0.07, 0.1);
-    const rightNail2 = new THREE.Mesh(rightNail2Geometry, this.orangeMaterial);
-    //rightNail2.castShadow = true;
-    rightNail2.receiveShadow = true;
-    rightNail2.position.set(-0.10125, 0, 0.15);
-    rightPaw.add(rightNail2);
 
   }
 
   jump(speed, dist, asse) {
-    this.vAngle += speed*goingFastChicken;
+    this.vAngle += speed * goingFastChicken;
 
     //check if i'm going up or down
     if(this.group.position.y >= 3 || descending){
-      this.group.position.y-= Math.sin(speed)*1.2*goingFastChicken;
+      this.group.position.y-= Math.sin(speed)*1.2 * goingFastChicken;
       descending = true;
-      legRotation = (-30 * Math.PI / 180 /19) * goingFastChicken;
+      legRotation = (-33 * Math.PI / 180 /19 ) * goingFastChicken;
+      leftArmRotation = (-63 * Math.PI / 180 /19 ) * goingFastChicken;
+      //rightArmRotation = (-33 * Math.PI / 180 /19 ) * goingFastChicken;
     }
     else{
-      legRotation  = (30 * Math.PI / 180 /19 )*goingFastChicken;
-      this.group.position.y+= Math.sin(speed)*1.2*goingFastChicken;
+      legRotation  = (33 * Math.PI / 180 /19 ) * goingFastChicken;
+      leftArmRotation = (63 * Math.PI / 180 /19 ) * goingFastChicken ;
+      //rightArmRotation = (-33 * Math.PI / 180 /19 ) * goingFastChicken;
+      this.group.position.y+= Math.sin(speed)*1.2 * goingFastChicken;
     }
 
+    if(step) {
+      this.rightLeg.rotation.x += legRotation;
+      this.leftLeg.rotation.x -= legRotation;
+      this.leftWing.rotation.x += leftArmRotation;
+    }
+    else {
+      this.rightLeg.rotation.x -= legRotation;
+      this.leftLeg.rotation.x += legRotation;
+      this.leftWing.rotation.x -= leftArmRotation;
+    }
 
-    this.rightLeg.rotation.x += legRotation;
-    this.leftLeg.rotation.x += legRotation;
+    step_iter = step_iter + 1;
+    if (step_iter==38) {
+      step = !step;
+      step_iter = 0;
+    }
 
     //had to speed up the movement since i'm using a different incremental function
     if(asse=='z') this.group.position.z = this.group.position.z + 1.0387*dist*goingFastChicken;
 
     if(asse=='x') this.group.position.x = this.group.position.x + 1.0387*dist*goingFastChicken;
 
-
-    const wingRotation = Math.sin(this.vAngle) * Math.PI / 3 + 1.5;
-    this.rightWing.rotation.z = wingRotation;
-    this.leftWing.rotation.z = -wingRotation;
+//////////////// DA ELIMINARE
+    /////////////const wingRotation = Math.sin(this.vAngle) * Math.PI / 3 + 1.5;
+    /////////////this.leftWing.rotation.z = -wingRotation;
 
     //I'm close to the terriain and i don't want to compenetrate, let's stop stalling the keyboard presses
     //and resetting to original height.
@@ -243,8 +249,9 @@ class Chicken{
         }
       }
       if(asse=='x') this.group.position.x =oldPos + 3.75*sign;
+    }
   }
-}
+
   actionOnPressKey(referencePositionAnimal) {
     if(inMotion){
       this.jump(speedDown, sign * dist, last);
@@ -276,6 +283,7 @@ class Chicken{
           this.group.rotation.y = rad(0);
           oldPos = this.group.position.z;
           this.jump(speedUp, dist, 'z');
+          
         }
       }
       else if (keySDown){
@@ -337,20 +345,21 @@ class Chicken{
         }
       }
     }
-}
-crashAnimation(){
-  this.group.position.y+=crashSpeed;
-  crashSpeed+=(1/8)*crashSpeed;
-  this.group.rotation.y += rad(15 );
-  this.group.rotation.z += rad(10);
-  if(this.group.position.y > 20){
-    eventMsg("Hit by a car!\n GAME OVER!");
   }
-}
-sunkAnimation(){
-  this.group.position.y-=4*crashSpeed;
-  if(this.group.position.y < -35){
-    eventMsg("Fallen in the river!\n GAME OVER!");
+
+  crashAnimation(){
+    this.group.position.y+=crashSpeed;
+    crashSpeed+=(1/8)*crashSpeed;
+    this.group.rotation.y += rad(15 );
+    this.group.rotation.z += rad(10);
+    if(this.group.position.y > 20){
+      eventMsg("Hit by a car!\n GAME OVER!");
+    }
   }
-}
+  sunkAnimation(){
+    this.group.position.y-=4*crashSpeed;
+    if(this.group.position.y < -35){
+      eventMsg("Fallen in the river!\n GAME OVER!");
+    }
+  }
 }
