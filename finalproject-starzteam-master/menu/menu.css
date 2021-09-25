@@ -10,6 +10,52 @@
     top:250px;
     left:480px;
 }
+#title {
+  
+    position:absolute;
+    bottom:270px; 
+    right:900px;
+    height:350px;
+    width:200px;
+    text-align:center;
+    font-size:100px;
+    -webkit-transition:0.8s;
+    transition:0.8s;
+    color:rgb(221, 25, 25);
+    font-family:TextFont;
+
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+
+    -moz-text-shadow: -10px -5px 5px rgba(0,0,0,1);
+    -webkit-text-shadow: -10px -5px 5px rgba(0,0,0,1);
+    text-shadow: -10px -5px 5px rgba(0,0,0,1);
+
+}
+#title2 {
+  
+    position:absolute;
+    bottom:270px; 
+    right:570px;
+    height:350px;
+    width:200px;
+    text-align:center;
+    font-size:100px;
+    -webkit-transition:0.8s;
+    transition:0.8s;
+    color:rgb(0,0,0,1);
+    font-family:TextFont;
+
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+
+    -moz-text-shadow: -10px -5px 5px rgba(221, 25, 25);
+    -webkit-text-shadow: -10px -5px 5px rgba(221, 25, 25);
+    text-shadow: -10px -5px 5px rgba(221, 25, 25);
+
+}
 
 #start {
   
@@ -106,6 +152,28 @@
     transform:scale(1.25); 
 }
 
+#creditsText{
+    position:absolute;
+    bottom:72%;
+    left:27%;
+    height:20px;
+    width:700px;
+    text-align:center;
+    font-family:TextFont;
+    font-size:50px;
+    color:rgb(239, 243, 20);
+    -webkit-transition:0.8s;
+    transition:0.8s;
+
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+
+    -moz-text-shadow: -5px -5px 5px rgb(0,0,0,1);
+    -webkit-text-shadow: -5px -5px 5px rgb(0,0,0,1);
+    text-shadow: -5px -5px 5px rgba(0,0,0,1);
+}
+
 #play {
   
     position:absolute;
@@ -167,11 +235,11 @@
 }
 
 
-#text{
+#commandsText{
     position:absolute;
-    bottom:80%;
-    left:26%;
-    height:40px;
+    bottom:85%;
+    left:50%;
+    height:60px;
     width:700px;
     text-align:center;
     font-family:TextFont;
@@ -187,8 +255,50 @@
     -moz-text-shadow: -10px -5px 5px rgb(0,0,0,1);
     -webkit-text-shadow: -10px -5px 5px rgb(0,0,0,1);
     text-shadow: -10px -5px 5px rgba(0,0,0,1);
+}
 
-    cursor:pointer;
+#rulesText{
+    position:absolute;
+    bottom:85%;
+    left:5%;
+    height:60px;
+    width:700px;
+    text-align:center;
+    font-family:TextFont;
+    font-size:60px;
+    color:rgb(236, 106, 0);
+    -webkit-transition:0.8s;
+    transition:0.8s;
+
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+
+    -moz-text-shadow: -10px -5px 5px rgb(0,0,0,1);
+    -webkit-text-shadow: -10px -5px 5px rgb(0,0,0,1);
+    text-shadow: -10px -5px 5px rgba(0,0,0,1);
+}
+
+#tutorialText{
+    position:absolute;
+    bottom:70%;
+    left:5%;
+    height:20px;
+    width:700px;
+    text-align:center;
+    font-family:TextFont;
+    font-size:33px;
+    color:rgb(239, 243, 20);
+    -webkit-transition:0.8s;
+    transition:0.8s;
+
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+
+    -moz-text-shadow: -5px -5px 5px rgb(0,0,0,1);
+    -webkit-text-shadow: -5px -5px 5px rgb(0,0,0,1);
+    text-shadow: -5px -5px 5px rgba(0,0,0,1);
 }
 
 #testo{

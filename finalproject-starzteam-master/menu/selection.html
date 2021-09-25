@@ -6,14 +6,16 @@
     <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
     <title>Credits</title>
     <link rel="shortcut icon" href="#">
-    <script src="finalproject-starzteam-master/three.js"></script>
-    <script src="finalproject-starzteam-master/libs/soundjs.min.js"></script>
-    <script src="finalproject-starzteam-master/OrbitControls.js"></script>
-    <script src="finalproject-starzteam-master/thingsRoad.js"></script>
-    <script src="finalproject-starzteam-master/sheep.js"></script>
-    <script src="finalproject-starzteam-master/chicken.js"></script>
-    <script src="finalproject-starzteam-master\fox.js"></script>
-    <script src="finalproject-starzteam-master/car.js"></script>
+    <link rel="stylesheet" href="crossyRoad.css">
+    <script src="./three.js"></script>
+    <script src="./libs/soundjs.min.js"></script>
+    <script src="./OrbitControls.js"></script>
+    <script src="./thingsRoad.js"></script>
+    <script src="./sheep.js"></script>
+    <script src="./chicken.js"></script>
+    <script src="./fox.js"></script>
+    <script src="./car.js"></script>
+    
         <style>
             html, body {
                 overflow: hidden;
@@ -49,6 +51,35 @@
             select#difficult option[value="Hard"] { width:90px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
 
         </style>
+        <script>
+          var runGame = function(){
+            document.getElementById("play").style.display = "none";
+            document.getElementById("selection2").style.display = "none";
+            document.getElementById("selection3").style.display = "none";
+            document.getElementById("selection2mezzo").style.display = "none";
+            document.getElementById("selection1").style.display = "none";
+            document.getElementById("back").style.display = "none";
+            var opt = document.getElementById("characterSel");
+            var charSelected = opt.options[opt.selectedIndex].value;
+    
+            opt = document.getElementById("dayNightSel");
+            var condSelected = opt.options[opt.selectedIndex].value;
+    
+            opt = document.getElementById("fog");
+            var fogSelected = opt.options[opt.selectedIndex].value;
+    
+            opt = document.getElementById("difficult");
+            var diffSelected = opt.options[opt.selectedIndex].value;
+    
+    
+    
+            startGame(charSelected, condSelected, diffSelected,fogSelected);
+            document.getElementById("world").style.display = "block";
+            document.getElementById("toggle toggle-night").style.display = "block";
+            document.getElementById("score").style.display = "block";
+            document.getElementById("toggle-menu").style.display = "block";
+          }
+          </script>
 </head>
 <body>
 
@@ -109,35 +140,7 @@
   </div>
 
     <link rel="stylesheet" href="menu.css" type="text/css" />
-    <script type="text/javascript" src="finalproject-starzteam-master/crossyRoad.js"></script>
-<script>
-      var runGame = function(){
-        document.getElementById("play").style.display = "none";
-        document.getElementById("selection2").style.display = "none";
-        document.getElementById("selection3").style.display = "none";
-        document.getElementById("selection2mezzo").style.display = "none";
-        document.getElementById("selection1").style.display = "none";
-        document.getElementById("back").style.display = "none";
-        var opt = document.getElementById("characterSel");
-        var charSelected = opt.options[opt.selectedIndex].value;
+    <script type="text/javascript" src="crossyRoad.js"></script>
 
-        opt = document.getElementById("dayNightSel");
-        var condSelected = opt.options[opt.selectedIndex].value;
-
-        opt = document.getElementById("fog");
-        var fogSelected = opt.options[opt.selectedIndex].value;
-
-        opt = document.getElementById("difficult");
-        var diffSelected = opt.options[opt.selectedIndex].value;
-
-
-
-        startGame(charSelected, condSelected, diffSelected,fogSelected);
-        document.getElementById("world").style.display = "block";
-        document.getElementById("toggle toggle-night").style.display = "block";
-        document.getElementById("score").style.display = "block";
-        document.getElementById("toggle-menu").style.display = "block";
-      }
-      </script>
 </body>
 </html> 
