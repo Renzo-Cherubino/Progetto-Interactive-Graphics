@@ -20,7 +20,7 @@ var scene,
     numberOfJumps = 0,
     added = false,
     outrun = false,
-    pickedAnimal = "Sheep",
+    pickedCharacter = "Sheep",
     sp = [],
     difficulty = "Easy",
     diffModifier = 0.0,
@@ -47,7 +47,7 @@ var limitMax = -6;
 var limitMin = -6;
 var numOfFrontActiveLevels = 2;
 
-var animal,
+var character,
     sky;
 
 var wall;
@@ -59,8 +59,8 @@ var width,
 
 var crash = false;
 
-function startGame(chosedAnimal, dayNight, difficulty, foggyDay){
-  pickedAnimal = chosedAnimal;
+function startGame(chosenCharacter, dayNight, difficulty, foggyDay){
+  pickedCharacter = chosenCharacter;
   night = (dayNight == 'true');
   setDifficulty(difficulty);
   init();
@@ -109,7 +109,7 @@ function init() {
 
   addLights();
   loadSounds();
-  drawAnimal();
+  drawCharacter();
   drawCity();
   drawTerrain();
 
@@ -193,20 +193,17 @@ function addLights() {
 
 
 
-function drawAnimal() {
-  if(pickedAnimal == "Sheep"){
-    animal = new Sheep();
+function drawCharacter() {
+  if(pickedCharacter == "Sheep"){
+    character = new Sheep();
   }
-  else if (pickedAnimal == "Dog"){
-    animal = new Dog();
-  }
-  else if (pickedAnimal == "Shark"){
-    animal = new Shark();
+  else if (pickedCharacter == "Dog"){
+    character = new Dog();
   }
   else{
-    animal = new Chicken();
+    character = new OldLady();
   }
-  scene.add(animal.group);
+  scene.add(character.group);
 }
 
 
@@ -367,8 +364,8 @@ function animate() {
 function render() {
 
   scene.updateMatrixWorld();
-  var referencePositionAnimal = new THREE.Vector3();
-  animal.boxReference.getWorldPosition(referencePositionAnimal);
+  var referencePositionCharacter = new THREE.Vector3();
+  character.boxReference.getWorldPosition(referencePositionCharacter);
 
   if(highestScore == numberOfJumps){
     eventMsg("You Win!");
@@ -378,7 +375,7 @@ function render() {
 
   if(!crash){
 
-    if ((tot > referencePositionAnimal.z + 2.5 ) || referencePositionAnimal.x >33 || referencePositionAnimal.x <-33) {
+    if ((tot > referencePositionCharacter.z + 2.5 ) || referencePositionCharacter.x >33 || referencePositionCharacter.x <-33) {
       crash = true;
       pause = true;
       outrun = true;
@@ -386,8 +383,8 @@ function render() {
     }
 
     else if(highestScore != 0){
-      if((referencePositionAnimal.z - tot >= 0) && (highestScore < numberOfJumps)){
-        tot+=diffModifier*(1+ (referencePositionAnimal.z - tot)/4);
+      if((referencePositionCharacter.z - tot >= 0) && (highestScore < numberOfJumps)){
+        tot+=diffModifier*(1+ (referencePositionCharacter.z - tot)/4);
       }
       else if (highestScore < numberOfJumps){
         tot+=diffModifier;
@@ -397,7 +394,7 @@ function render() {
 
     camera.position.set(-10, 20, tot); // posizione camera
 
-    if(referencePositionAnimal.z > limitMax){
+    if(referencePositionCharacter.z > limitMax){
       actualTrack++;
       limitMin = limitMax;
       limitMax = mappingTracks[actualTrack];
@@ -407,7 +404,7 @@ function render() {
       camera.layers.set(actualLevelCamera);
       }
     
-    if(referencePositionAnimal.z <= limitMin && actualTrack > 0){
+    if(referencePositionCharacter.z <= limitMin && actualTrack > 0){
       actualTrack--;
       limitMax = limitMin;
       limitMin = mappingTracks[actualTrack - 1];
@@ -421,17 +418,17 @@ function render() {
       camera.layers.set(actualLevelCamera);
     }
 
-    animal.actionOnPressKey(referencePositionAnimal);
+    character.actionOnPressKey(referencePositionCharacter);
     var lengthVehicles;
     var i, j;
     var vehicles;
     var length = actualListTracks.length;
     for(i = 0; i < length; i++){
-      actualListTracks[i].doCheck(referencePositionAnimal);
+      actualListTracks[i].doCheck(referencePositionCharacter);
       vehicles = actualListTracks[i].vehicles;
       lengthVehicles = vehicles.length;
       for(j = 0; j < lengthVehicles; j++){
-        vehicles[j].goForward(referencePositionAnimal);
+        vehicles[j].goForward(referencePositionCharacter);
       }
     }
   }
@@ -446,7 +443,7 @@ function render() {
         sound.play('death');
         flag_dead = true;
       }
-      animal.crashAnimation();
+      character.crashAnimation();
     }
   }
 
@@ -465,8 +462,8 @@ function checkTrees(position){
     lengthTrees = trees.length;
     for(j = 0; j < lengthTrees; j++){
       trees[j].trunk.getWorldPosition(referencePosition);
-      if( (Math.abs(referencePosition.x - position.x) <= animal.sideX + trees[j].sideX) &&
-          (Math.abs(referencePosition.z - position.z) <= animal.sideZ + trees[j].sideZ) ){
+      if( (Math.abs(referencePosition.x - position.x) <= character.sideX + trees[j].sideX) &&
+          (Math.abs(referencePosition.z - position.z) <= character.sideZ + trees[j].sideZ) ){
             return true;
           }
     }
@@ -524,7 +521,7 @@ function restartGame(){
   location.reload();
   pause = !pause;
   crash = !crash;
-  startGame(pickedAnimal, night, difficulty);
+  startGame(pickedCharacter, night, difficulty);
   document.getElementById("resume").style.display = "none";
   document.getElementById("restart").style.display = "none";
   document.getElementById("menubutton").style.display = "none";

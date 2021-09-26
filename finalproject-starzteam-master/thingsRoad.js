@@ -89,7 +89,7 @@ class Road {
 
         for(k = 0; k < numCarPerStreet; k++){
 
-          car = new Car(animal, newSpeed, newInitial + totalDistance, newDirection);
+          car = new Car(character, newSpeed, newInitial + totalDistance, newDirection);
           this.vehicles.push(car);
           this.prec.add(this.vehicles[j].group);
           j++;
@@ -206,7 +206,7 @@ class RoadWithPoleLights {
 
         for(k = 0; k < numCarPerStreet; k++){
 
-          car = new Car(animal, newSpeed, newInitial + totalDistance, newDirection);
+          car = new Car(character, newSpeed, newInitial + totalDistance, newDirection);
           this.vehicles.push(car);
           this.prec.add(this.vehicles[j].group);
           j++;
