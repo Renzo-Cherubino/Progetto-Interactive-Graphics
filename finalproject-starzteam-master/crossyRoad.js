@@ -197,8 +197,8 @@ function drawAnimal() {
   if(pickedAnimal == "Sheep"){
     animal = new Sheep();
   }
-  else if (pickedAnimal == "Fox"){
-    animal = new Fox();
+  else if (pickedAnimal == "Dog"){
+    animal = new Dog();
   }
   else if (pickedAnimal == "Shark"){
     animal = new Shark();
@@ -542,7 +542,7 @@ function eventMsg(msg) {
 
 function setDifficulty(diff){
   if(diff == "Easy"){
-    numLevels = 2;
+    numLevels = 15;
     listNumCar = [1,2,3];
     listSpeed = [0.04, 0.06, 0.12];
     diffModifier = 0.035;

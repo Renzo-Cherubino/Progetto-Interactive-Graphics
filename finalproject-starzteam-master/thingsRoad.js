@@ -23,9 +23,9 @@ class Road {
 
     this.materialAsphalt = new THREE.MeshPhongMaterial({color: 0x393D49, flatShading: true});
     this.materialLine = new THREE.MeshPhongMaterial({color: 0xf0f0f0, flatShading: true });
-    this.materialMiddle = new THREE.MeshPhongMaterial({color: 0xbaf455, flatShading: true});
-    this.materialLeft = new THREE.MeshPhongMaterial({color: 0x99C846, flatShading: true});
-    this.materialRight = new THREE.MeshPhongMaterial({color: 0x99C846, flatShading: true});
+    this.materialMiddle = new THREE.MeshPhongMaterial({color: 0x8f7971, flatShading: true});
+    this.materialLeft = new THREE.MeshPhongMaterial({color: 0x8f7971, flatShading: true});
+    this.materialRight = new THREE.MeshPhongMaterial({color: 0x8f7971, flatShading: true});
 
     this.vAngle = 0;
 
@@ -443,15 +443,9 @@ class GrassStart {
     this.group.position.z = positionZ;
     this.group.scale.set(1.5, 1.5, 1.5);
 
-    this.materialMiddle = new THREE.MeshPhongMaterial({
-      color: 0xbaf455,
-      flatShading: true
-    });
+    this.materialMiddle = new THREE.MeshPhongMaterial({color: 0x8f7971, flatShading: true});
 
-    this.materialLeft = new THREE.MeshPhongMaterial({
-      color: 0x99C846,
-      flatShading: true
-    });
+    this.materialLeft = new THREE.MeshPhongMaterial({color: 0x8f7971, flatShading: true});
 
     this.vAngle = 0;
 
@@ -519,7 +513,7 @@ class GrassEnd {
     this.group.position.z = positionZ;
     this.group.scale.set(1.5, 1.5, 1.5);
 
-    this.materialMiddle = new THREE.MeshPhongMaterial({color: 0x99C846, flatShading: true});
+    this.materialMiddle = new THREE.MeshPhongMaterial({color: 0x8f7971, flatShading: true});
     this.materialHouse = new THREE.MeshPhongMaterial({color: 0xffffff, flatShading: true});
 
     this.vAngle = 0;
