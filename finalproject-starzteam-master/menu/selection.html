@@ -4,9 +4,9 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
-    <title>Credits</title>
+    <title>Select</title>
     <link rel="shortcut icon" href="#">
-    <link rel="stylesheet" href="crossyRoad.css">
+    <link rel="stylesheet" href="menu.css">
     <script src="./three.js"></script>
     <script src="./libs/soundjs.min.js"></script>
     <script src="./OrbitControls.js"></script>
@@ -37,18 +37,17 @@
             select#characterSel option[value="Sheep"]   { width:95px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
             select#characterSel option[value="Chicken"] { width:95px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
             select#characterSel option[value="Fox"] { width:95px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
-            select#characterSel option[value="Shark"] { width:95px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
 
-            select#dayNightSel option[value="false"] { background-color:white; width:100px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
-            select#dayNightSel option[value="true"] { background-color:white; width:100px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+            select#dayNightSel option[value="false"] { background-color:rgb(109, 214, 255); width:90px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+            select#dayNightSel option[value="true"] { background-color:rgb(109, 214, 255); width:90px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
            
-            select#fog option[value="true"] { background-color:white; width:100px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
-            select#fog option[value="false"] { background-color:white; width:100px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+            select#fog option[value="true"] { background-color:rgb(255, 255, 255); width:90px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+            select#fog option[value="false"] { background-color:rgb(255, 255, 255); width:90px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
 
 
-            select#difficult option[value="Easy"] { width:90px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
-            select#difficult option[value="Normal"] { width:90px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
-            select#difficult option[value="Hard"] { width:90px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+            select#difficult option[value="Easy"] { width:145px; height:100px; background-repeat: no-repeat; background-size: 150px 100px;}
+            select#difficult option[value="Normal"] { width:145px; height:100px; background-repeat: no-repeat; background-size: 150px 100px;}
+            select#difficult option[value="Hard"] { width:145px; height:100px; background-repeat: no-repeat; background-size: 150px 100px;}
 
         </style>
         <script>
@@ -71,8 +70,6 @@
             opt = document.getElementById("difficult");
             var diffSelected = opt.options[opt.selectedIndex].value;
     
-    
-    
             startGame(charSelected, condSelected, diffSelected,fogSelected);
             document.getElementById("world").style.display = "block";
             document.getElementById("toggle toggle-night").style.display = "block";
@@ -85,39 +82,37 @@
 
     <div id="selection1">
         <label>Select character</label></br>
-        <select id="characterSel" size="4">
+        <select id="characterSel" size="3">
           <option style="background-image:url(icon/sheep.png);" value="Sheep" selected></option>
           <option style="background-image:url(icon/chicken.png);" value="Chicken"></option>
-          <option style="background-image:url(icon/fox.png);" value="Fox" ></option>
           <option style="background-image:url(icon/fox.png);" value="Fox" ></option>
         </select></br>
         </div>
 
-        <div id="selection2">
-        <label>Select the light</label></br>
-        <select id="dayNightSel" size="2">
-          <option style="background-image:url(icon/sun.png);" value="false"  ></option>
-          <option style="background-image:url(icon/night.png);" value="true" selected></option>
-          
-        </select>
-        </div>
+    <div id="selection2">
+    <label>Select the light</label></br>
+    <select id="dayNightSel" size="2">
+      <option style="background-image:url(icon/sun.png);" value="false"  ></option>
+      <option style="background-image:url(icon/night.png);" value="true" selected></option>
+    </select>
+    </div>
 
-        <div id="selection2mezzo">
-          <label>Foggy</label></br>
-          <select id="fog" size="2">
-          <option style="background-image:url(icon/mist.png);" value="true" selected></option>
-          <option style="background-image:url(icon/normal.png);" value="false" selected></option>
-          </select>
-        </div>
+    <div id="selection2mezzo">
+      <label>Foggy</label></br>
+      <select id="fog" size="2">
+      <option style="background-image:url(icon/mist.png);" value="true" selected></option>
+      <option style="background-image:url(icon/nomistden.jpg);" value="false" selected></option>
+      </select>
+    </div>
 
-        <div id="selection3">
-        <label>Select Difficulty</label></br>
-        <select id="difficult" size="3">
-          <option style="background-image:url(icon/Easy1.png);" value="Easy" selected></option>
-          <option style="background-image:url(icon/Normal1.png);" value="Normal"></option>
-          <option style="background-image:url(icon/Difficult.png);" value="Hard"></option>
-        </select>
-      </div>
+    <div id="selection3">
+    <label>Select Difficulty</label></br>
+    <select id="difficult" size="3">
+      <option style="background-image:url(icon/Easy1.png);" value="Easy" selected></option>
+      <option style="background-image:url(icon/Normal1.png);" value="Normal"></option>
+      <option style="background-image:url(icon/Difficult.png);" value="Hard"></option>
+    </select>
+  </div>
 
     <div id="play" onclick="runGame()" ><p>Play</p></div>/<!--onmouseover="document.getElementById('player').play();"-->
     <div id="back" onclick="window.location.href = 'menuIndex.html';" onmouseover="document.getElementById('playercredits').play();"><p>BACK</p></div>

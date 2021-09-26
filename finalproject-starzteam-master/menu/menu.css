@@ -231,7 +231,7 @@
 
 #back:hover {
     color:rgb(221, 25, 25);
-    transform:scale(1.5);
+    transform:scale(1.25);
 }
 
 
@@ -301,32 +301,8 @@
     text-shadow: -5px -5px 5px rgba(0,0,0,1);
 }
 
-#testo{
-    position: absolute;
-    top: 380px;
-    left: 450px;
-    height: auto;
-    width: 800px;
-     font-size:40px;
-    font-family:Arial, Helvetica, sans-serif;
-    color:rgb(236, 106, 0);
-    -webkit-transition:0.8s;
-    transition:0.8s;
-    background-color: aliceblue;
-
-    /*-moz-border-radius: 8px;
-    -webkit-border-radius: 8px;
-    border-radius: 8px;
-
-    -moz-text-shadow: -10px -5px 5px rgb(0,0,0,1);
-    -webkit-text-shadow: -10px -5px 5px rgb(0,0,0,1);
-    text-shadow: -10px -5px 5px rgba(0,0,0,1);*/
-
-    cursor:pointer;
-}
-
 #selection select option {
-    display:inline;
+    display:inline-block;
     
   }
 
@@ -382,7 +358,7 @@
 
 #selection2mezzo{
     position:absolute;
-    bottom: 450px;;
+    bottom: 320px;;
     left:30%;
     height:30px;
     width:700px;
@@ -433,3 +409,66 @@
     cursor:pointer;
 }
 
+body {
+    margin: 0;
+  }
+
+  .world {
+    position: absolute;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    background-color: #87CEEB;
+  }
+
+  .world-night {
+    background-color: #1E0F4C;
+  }
+
+  .toggle {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    box-shadow: 0 4px 16px #C40062;
+    background: #FFDEAD url('./icon/sun.png') center center / 60% no-repeat;
+    cursor: pointer;
+  }
+
+  .toggle-night {
+    box-shadow: 0 4px 16px #626EC9;
+    background: #00008B url('./icon/night.png') center 46% / 60% no-repeat;
+  }
+
+  .toggle-fog {
+    position: absolute;
+    top: 1rem;
+    left: 3rem;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    box-shadow: 0 4px 16px #C40062;
+    background: #FFDEAD url('./icon/mist.png') center center / 60% no-repeat;
+    cursor: pointer;
+  }
+  .toggle-normal {
+    box-shadow: 0 4px 16px #626EC9;
+    background: #21aef0 url('./icon/normal.png') center 46% / 60% no-repeat;
+  }
+
+  .toggle-menu {
+    position: absolute;
+    margin-top: 0px;
+    margin-left: 97%;
+    margin-bottom: 3px;
+    border-radius: 50%;
+    box-shadow: 0 4px 16px black;
+    background: gold url('./icon/menu.png') center center / 60% no-repeat;
+    width:50px; 
+    height:50px; 
+    background-repeat: no-repeat; 
+    background-size: 25px 25px;
+    cursor: pointer;
+  }
