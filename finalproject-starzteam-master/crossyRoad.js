@@ -37,7 +37,7 @@ var poleLight,
     ambientLight,
     spotLight;
 
-var numOfLevelVisible = 8,
+var numOfLevelVisible = 7,
     numOfLevelPrec = 3, //so you will render numOfLevelVisible + numOfLevelPrec tracks
     actualLevelCamera = 0;
 
@@ -155,8 +155,6 @@ function startSoundtrack(event) {
 
 ////// LIGHTING
 function addLights() {
-  
-  // poleLight = new PoleLight();
 
   // Ambient light
   spotLight = new THREE.SpotLight( 0xFCCDA4, 1 );
@@ -228,7 +226,10 @@ function getNewTerrain(posZ = -1){
   else {
     if(Math.floor(Math.random()*1) == 0){
       var n = Math.floor(Math.random()*numLanes.length);
-      track = new Road(posAtt, numLanes[n]);
+      if(night)
+        track = new RoadWithPoleLights(posAtt, numLanes[n]);
+      else
+        track = new Road(posAtt, numLanes[n]);
       numberOfJumps+=n+2;
     }
     else {
@@ -570,7 +571,7 @@ function eventMsg(msg) {
 
 function setDifficulty(diff){
   if(diff == "Easy"){
-    numLevels = 16;
+    numLevels = 18;
     listNumCar = [0,2,3];
     listSpeed = [0.04, 0.05, 0.06, 0.12];
     speedListWood = [0.01, 0.02, 0.05];

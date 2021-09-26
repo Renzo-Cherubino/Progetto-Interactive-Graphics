@@ -16,6 +16,7 @@ const depthWood = 5.0;
 var splash = false;
 var texture;
 var texture1;
+var flagPoleLight = 0;
 
 class Road {
   constructor(posZ, numLanes) {
@@ -120,11 +121,130 @@ class Road {
         var tunnel = new Tunnel(posZ, i);
         this.prec.add(tunnel.trunk);
       }
+    }
+    
+    this.trees = [];
+    var tree = new Tree();
+    this.rightGrass.add(tree.group);
+    this.trees.push(tree);
+  }
 
-      //poleLight = new PoleLight(posZ);
-      //this.leftGrass.add(poleLight.pole);
-      //scene.add(poleLight);
-      //this.prec.add(poleLight.pole);
+  doCheck(){
+
+  }
+}
+
+
+class RoadWithPoleLights {
+  constructor(posZ, numLanes) {
+    this.occupiedSpace = 0;
+    this.group = new THREE.Group();
+    this.group.position.y = -1.35;
+
+    this.group.position.z = posZ;
+    this.group.scale.set(1.5, 1.5, 1.5);
+    this.group.rotation.y = rad(-90);
+
+    this.materialAsphalt = new THREE.MeshPhongMaterial({color: 0x393D49, flatShading: true});
+    this.materialLine = new THREE.MeshPhongMaterial({color: 0xf0f0f0, flatShading: true });
+    this.materialMiddle = new THREE.MeshPhongMaterial({color: 0xbaf455, flatShading: true});
+    this.materialLeft = new THREE.MeshPhongMaterial({color: 0x99C846, flatShading: true});
+    this.materialRight = new THREE.MeshPhongMaterial({color: 0x99C846, flatShading: true});
+
+    this.vAngle = 0;
+
+    this.drawParts(numLanes, posZ);
+
+  }
+
+  drawParts(numLanes, posZ) {
+    this.middleGrass = new THREE.Mesh(new THREE.BoxBufferGeometry( widthGrass, highGrass, depthGrass), this.materialMiddle);
+    this.middleGrass.receiveShadow = true;
+    this.group.add(this.middleGrass);
+
+    this.leftGrass = new THREE.Mesh(new THREE.BoxBufferGeometry( widthGrass, highGrass, depthGrass), this.materialLeft);
+    this.leftGrass.position.z = - distGrass;
+    this.leftGrass.receiveShadow = true;
+    this.middleGrass.add(this.leftGrass);
+
+    this.rightGrass = new THREE.Mesh(new THREE.BoxBufferGeometry( widthGrass, highGrass, depthGrass), this.materialRight);
+    this.rightGrass.position.z = distGrass;
+    this.rightGrass.receiveShadow = true;
+    this.middleGrass.add(this.rightGrass);
+
+    this.occupiedSpace += widthGrass;
+
+    this.prec = this.middleGrass;
+    this.vehicles = [];
+    var road = null;
+    var j = 0;
+
+    var listInitial = [-20, -25, -30, -35, -40]; //add 5 to every body if car are too close
+    var listDistance = [5, 10, 15];
+    var newSpeed;
+    var newInitial;
+    var newDirection;
+    var totalDistance = 0;
+
+    var k;
+    var car;
+
+    for(var i = 0; i < (numLanes*2)-1; i++){
+      if(i%2 == 0){
+        var road = new THREE.Mesh(new THREE.BoxBufferGeometry( widthRoad, hightRoad, depthRoad),  this.materialAsphalt);
+        if(i>0){
+          road.position.x = widthRoad/2-0.05;
+          road.rotateX(rad(90));
+          road.position.z = -0.07;
+        } else road.position.x = widthRoad;
+        road.receiveShadow = true;
+        this.prec.add(road);
+        this.prec = road;
+        this.occupiedSpace += widthRoad;
+
+        newSpeed = listSpeed[Math.floor(Math.random()*listSpeed.length)];
+        newInitial = listInitial[Math.floor(Math.random()*listInitial.length)];
+        if(Math.floor(Math.random()*2))
+          newDirection = 1;
+        else
+          newDirection = -1
+
+        var numCarPerStreet = listNumCar[Math.floor(Math.random()*listNumCar.length)];
+
+        for(k = 0; k < numCarPerStreet; k++){
+
+          car = new Car(animal, newSpeed, newInitial + totalDistance, newDirection);
+          this.vehicles.push(car);
+          this.prec.add(this.vehicles[j].group);
+          j++;
+
+          totalDistance += listDistance[Math.floor(Math.random()*listDistance.length)];
+
+        }
+
+        totalDistance = 0;
+      }
+      else{
+        road = new THREE.Mesh(new THREE.PlaneBufferGeometry(widthRoad/4, depthRoad),  this.materialLine);
+        road.position.x = distRoad;
+        road.position.y = 0.07;
+        road.rotateX(rad(-90));
+        road.receiveShadow = true;
+        this.prec.add(road);
+        this.prec = road;
+      }
+
+      for (let i=0; i<numLanes; i++){
+        var tunnel = new Tunnel(posZ, i);
+        this.prec.add(tunnel.trunk);
+      }
+    }
+
+    flagPoleLight = flagPoleLight+1;
+    console.log(flagPoleLight);
+    if(flagPoleLight % 3 == 0) {
+      poleLight = new PoleLight(posZ);
+      this.prec.add(poleLight.pole);
     }
 
     this.trees = [];
@@ -137,6 +257,19 @@ class Road {
 
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 class Wood{
   constructor(posX, dir, speed){
@@ -307,6 +440,9 @@ class Wall {
   }
 }
 
+function randomIntFromInterval(min, max) { // min and max included 
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
 
 class PoleLight {
 
@@ -319,9 +455,10 @@ class PoleLight {
 
     const heightPole = 5.0;
     const sidePole = 0.2;
+    const i = randomIntFromInterval(1, 6);
 
     this.pole = new THREE.Mesh( new THREE.BoxBufferGeometry( sidePole, heightPole, sidePole ), this.materialPole );
-    this.pole.position.set(20, heightPole/2, posZ);   ////////// posZ, heightPole/2, 1
+    this.pole.position.set(2.5, heightPole/2, -20);   ////////// posZ, heightPole/2, 1
     this.pole.castShadow = true;
     this.pole.receiveShadow = true;
     this.pole.rotation.set(0, rad(-90), 0)
@@ -349,7 +486,7 @@ class PoleLight {
     this.poleHead.add( this.spotLight );
 
     scene.add(this.spotLight.target);
-    this.spotLight.target.position.set(-5, -2, 0);
+    this.spotLight.target.position.set(-100, 0, posZ);
 
   }
 
@@ -465,10 +602,8 @@ class GrassEnd {
     this.group.position.z = positionZ;
     this.group.scale.set(1.5, 1.5, 1.5);
 
-    this.materialMiddle = new THREE.MeshPhongMaterial({
-      color: 0x99C846,
-      flatShading: true
-    });
+    this.materialMiddle = new THREE.MeshPhongMaterial({color: 0x99C846, flatShading: true});
+    this.materialHouse = new THREE.MeshPhongMaterial({color: 0xffffff, flatShading: true});
 
     this.vAngle = 0;
 
@@ -488,6 +623,7 @@ class GrassEnd {
   drawParts() {
     this.trees = [];
     var prev = null;
+
     for(var i=0; i<9; i++){
       this.middleGrass = new THREE.Mesh(new THREE.BoxBufferGeometry( 2*widthGrass, highGrass, depthGrass), this.materialMiddle);
       if(i==0) this.middleGrass.position.x = -widthGrass/2;
@@ -521,6 +657,10 @@ class GrassEnd {
         }
       }*/
     }
+
+    this.house = new THREE.Mesh(new THREE.BoxBufferGeometry(10, 10, 10), this.materialHouse);
+
+
   }
 
   doCheck(){
