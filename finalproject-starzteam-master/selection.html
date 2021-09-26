@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+    
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
+    <title>Select</title>
+    <link rel="shortcut icon" href="#">
+    <link rel="stylesheet" href="menu.css">
+    <script src="./three.js"></script>
+    <script src="./libs/soundjs.min.js"></script>
+    <script src="./OrbitControls.js"></script>
+    <script src="./thingsRoad.js"></script>
+    <script src="./chicken.js"></script>
+    <script src="./dog.js"></script>
+    <script src="./car.js"></script>
+    
+        <style>
+            html, body {
+                overflow: hidden;
+                width   : 100%;
+                height  : 100%;
+                margin  : 0;
+                padding : 0;
+                background-image:url("img/menuBack5.jpg");
+                background-size: 100% 100%;
+            }
+
+            @font-face{
+	            font-family: 'TextFont';
+	            src: url('font/font8.ttf') format('truetype');
+	            font-weight: normal;
+	            font-style: normal;
+            }
+            
+            select#characterSel option[value="OldLady"] { width:95px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+            select#characterSel option[value="Dog"] { width:95px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+
+            select#dayNightSel option[value="false"] { background-color:rgb(109, 214, 255); width:90px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+            select#dayNightSel option[value="true"] { background-color:rgb(109, 214, 255); width:90px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+           
+            select#fog option[value="true"] { background-color:rgb(255, 255, 255); width:90px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+            select#fog option[value="false"] { background-color:rgb(255, 255, 255); width:90px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+
+
+            select#difficult option[value="Easy"] { width:145px; height:100px; background-repeat: no-repeat; background-size: 150px 100px;}
+            select#difficult option[value="Normal"] { width:145px; height:100px; background-repeat: no-repeat; background-size: 150px 100px;}
+            select#difficult option[value="Hard"] { width:145px; height:100px; background-repeat: no-repeat; background-size: 150px 100px;}
+
+        </style>
+        <script>
+          var runGame = function(){
+            document.getElementById("play").style.display = "none";
+            document.getElementById("selection2").style.display = "none";
+            document.getElementById("selection3").style.display = "none";
+            document.getElementById("selection2mezzo").style.display = "none";
+            document.getElementById("selection1").style.display = "none";
+            document.getElementById("back").style.display = "none";
+            var opt = document.getElementById("characterSel");
+            var charSelected = opt.options[opt.selectedIndex].value;
+    
+            opt = document.getElementById("dayNightSel");
+            var condSelected = opt.options[opt.selectedIndex].value;
+    
+            opt = document.getElementById("fog");
+            var fogSelected = opt.options[opt.selectedIndex].value;
+    
+            opt = document.getElementById("difficult");
+            var diffSelected = opt.options[opt.selectedIndex].value;
+    
+            startGame(charSelected, condSelected, diffSelected,fogSelected);
+            document.getElementById("world").style.display = "block";
+            document.getElementById("toggle toggle-night").style.display = "none";
+            document.getElementById("score").style.display = "none";
+            document.getElementById("toggle-menu").style.display = "block";
+          }
+          </script>
+</head>
+<body>
+
+    <div id="selection1">
+        <label>Select character</label></br>
+        <select id="characterSel" size="2">
+          <option style="background-image:url(icon/oldLady.png);" value="OldLady"></option>
+          <option style="background-image:url(icon/dog.png);" value="Dog" ></option>
+        </select></br>
+        </div>
+
+    <div id="selection2">
+    <label>Select the light</label></br>
+    <select id="dayNightSel" size="2">
+      <option style="background-image:url(icon/sun.png);" value="false"  ></option>
+      <option style="background-image:url(icon/night.png);" value="true" selected></option>
+    </select>
+    </div>
+
+    <div id="selection2mezzo">
+      <label>Foggy</label></br>
+      <select id="fog" size="2">
+      <option style="background-image:url(icon/mist.png);" value="true" selected></option>
+      <option style="background-image:url(icon/nomistden.jpg);" value="false" selected></option>
+      </select>
+    </div>
+
+    <div id="selection3">
+    <label>Select Difficulty</label></br>
+    <select id="difficult" size="3">
+      <option style="background-image:url(icon/Easy1.png);" value="Easy" selected></option>
+      <option style="background-image:url(icon/Normal1.png);" value="Normal"></option>
+      <option style="background-image:url(icon/Difficult.png);" value="Hard"></option>
+    </select>
+  </div>
+
+    <div id="play" onclick="runGame()" ><p>Play</p></div>
+    <div id="back" onclick="window.location.href = 'menuIndex.html';" onmouseover="document.getElementById('playercredits').play();"><p>BACK</p></div>
+
+
+  </div>
+  <div id="world" class="world" style="display: none;">
+    <a id="toggle toggle-night" class="toggle toggle-night" style="display: none;"></a>
+    <a id="toggle-menu" class="toggle-menu" style="display: block;"></a>
+    <div id="event" style="display: none;">Text</div>
+    <div id="resume" onclick="resumeAnim()" onmouseover="this.style.backgroundColor = '#D2691E'" onmouseout="this.style.backgroundColor = 'gold'" style="display: none;">Resume</div>
+    <div id="menubutton" onclick="window.location.href = 'menuIndex.html';" onmouseover="this.style.backgroundColor = '#D2691E'" onmouseout="this.style.backgroundColor = 'gold'" style="display: none;">Menu</div>
+  </div>
+  
+  </div>
+
+    <link rel="stylesheet" href="menu.css" type="text/css" />
+    <script type="text/javascript" src="crossyRoad.js"></script>
+
+</body>
+</html> 
