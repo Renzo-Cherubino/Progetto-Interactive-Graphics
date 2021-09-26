@@ -456,10 +456,4 @@ crashAnimation(){
     eventMsg("Hit by a car!\n GAME OVER!");
   }
 }
-sunkAnimation(){
-  this.group.position.y-=4*crashSpeed;
-  if(this.group.position.y < -35){
-    eventMsg("Fallen in the river!\n GAME OVER!");
-  }
-}
 }

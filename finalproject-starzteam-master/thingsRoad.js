@@ -6,14 +6,7 @@ const highGrass = hightRoad;
 const widthGrass = widthRoad;
 const depthGrass =  depthRoad/3;
 const distGrass = depthGrass;
-const highRiver = hightRoad;
-const widthRiver = 2*widthRoad;
-const depthRiver = depthRoad;
-const highWood = 3*hightRoad;
-const widthWood = widthRoad-widthRoad/4;
-const numWood = 6;
-const depthWood = 5.0;
-var splash = false;
+var flag = false;
 var texture;
 var texture1;
 var flagPoleLight = 0;
@@ -257,82 +250,6 @@ class RoadWithPoleLights {
 
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-class Wood{
-  constructor(posX, dir, speed){
-
-    this.group = new THREE.Group();
-    this.group.position.set(posX, 0, 0);
-
-    texture = new THREE.TextureLoader().load( 'texture/sidelog.jpg' );
-    texture1 = new THREE.TextureLoader().load( 'texture/sidelognormal.jpg' );
-    var texture2 = new THREE.TextureLoader().load( 'texture/sidelogao.jpg' );
-
-    this.materialLog = new THREE.MeshPhongMaterial({ map: texture, normalMap: texture1, aoMap : texture2} );
-
-
-    this.vAngle = 0;
-
-    this.direction = dir;
-
-    this.speed = speed;
-
-    this.drawParts();
-  }
-
-  drawParts() {
-
-    this.trunk = new THREE.Mesh( new THREE.BoxBufferGeometry( widthWood, highWood, depthWood ), this.materialLog );
-    //this.trunk.castShadow = true;
-    this.trunk.receiveShadow = true;
-    this.group.add(this.trunk);
-
-    this.sideX = 1.5*depthWood/2;
-    this.sideZ = 1.5*widthWood/2;
-
-    this.isWood = false;
-
-  }
-
-  goForward(referencePositionAnimal){
-    this.group.position.z += this.direction*this.speed;
-    if(Math.abs(this.group.position.z) > depthRoad/2) //I can use the abs because the position is relative to the Road (not global in world coords)
-      this.group.position.z = -this.group.position.z;
-
-    var referencePosition = new THREE.Vector3();
-    this.trunk.getWorldPosition(referencePosition); //OCCHIO, il sistema di riferimento world e quello locale sono diversi!!! quindi dopo una rotazione cambiano x e z
-    //cambiano anche tra position.x e getWorldPosition.x
-
-    if( (Math.abs(referencePosition.z - referencePositionAnimal.z) <= this.sideZ) &&
-        (Math.abs(referencePosition.x - referencePositionAnimal.x) <= this.sideX) ){
-          this.isWood = true;
-          if(referencePositionAnimal.y <= animal.restHeight)
-            animal.group.position.x += 1.5*this.direction*this.speed;
-    }
-    else {
-      this.isWood = false;
-    }
-
-  }
-}
-
-
-
-
-
 
 
 const treeHeights = [1.0,1.5,2.0,2.5,3.0];
@@ -609,14 +526,6 @@ class GrassEnd {
 
     this.drawParts();
 
-
-    // load a texture, set wrap mode to repeat
-    /*
-     *   var texture = new THREE.TextureLoader().load( "grass.jpg" );
-     *   texture.wrapS = THREE.RepeatWrapping;
-     *   texture.wrapT = THREE.RepeatWrapping;
-     *   texture.repeat.set( 4, 4 );*/
-
     this.vehicles = [];
   }
 
@@ -644,28 +553,9 @@ class GrassEnd {
       this.middleGrass.add(this.rightGrass);
 
       this.occupiedSpace += widthGrass;
-      /*if(i == 5){
-        var now = -depthGrass*2-(depthGrass-1.8)/2;
-        var tree = null;
-        while(now < (depthGrass-1.5)/2){
-          tree = new Bush(now);
-          tree.group.position.y = 3;
-          tree.group.position.x = -2;
-          this.rightGrass.add(tree.group);
-          this.trees.push(tree);
-          now+=4;
-        }
-      }*/
     }
-
-    this.house = new THREE.Mesh(new THREE.BoxBufferGeometry(10, 10, 10), this.materialHouse);
-
-
   }
-
-  doCheck(){
-
-  }
+  doCheck(){}
 }
 
 const bushHeights = [3.0,3.2,3.5,3.8,4.0];
@@ -702,44 +592,3 @@ class Bush{
   }
 }
 
-class splashParticles{
-  constructor(positionZ,positionX, signX, signZ) {
-    this.group = new THREE.Group();
-
-    this.group.position.y = Math.log(0.36);
-    this.group.position.z = positionZ;
-    this.group.position.x = positionX;
-    this.mySpeed =Math.random() * 0.7 + 0.3;
-    this.signX = signX ;
-    this.signZ = signZ ;
-
-    this.group.scale.set(1.5, 1.5, 1.5);
-    this.materialRiver = new THREE.MeshPhongMaterial({
-      color: 0xF7E7C,
-
-      flatShading: true
-    });
-
-    this.drawParts();
-  }
-
-  drawParts() {
-      const particleGeometry = new THREE.BoxBufferGeometry(0.5, 0.5, 0.5);
-      this.particle = new THREE.Mesh( particleGeometry, this.materialRiver );
-      this.particle.position.z = this.signZ * Math.random()*3;
-      this.particle.position.x = this.signX * Math.random()*3;
-      this.particle.castShadow = true;
-      this.particle.receiveShadow = true;
-      this.group.add(this.particle);
-    }
-
-
-  animateParticles(){
-      if(this.group.position.y > 5){
-        this.mySpeed = -this.mySpeed;
-      }
-      this.group.position.y += this.mySpeed;
-      this.group.position.x += 0.1*this.signX/3;
-      this.group.position.z += 0.1*this.signZ/3;
-    }
-  }

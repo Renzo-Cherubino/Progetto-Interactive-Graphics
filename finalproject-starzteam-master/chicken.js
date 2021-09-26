@@ -15,7 +15,7 @@ var legRotation = 0;
 var leftArmRotation = 0;
 var rightArmRotation = 0;
 var oldPos = 0;
-var goingFastChicken = 1.0; 
+var goingFastChicken = 1.4; 
 var step = 0;
 var step_iter = 0;
 
@@ -140,12 +140,12 @@ class Chicken{
     hair2.position.set(0, 0, -0.45);
     head.add(hair2);
 
-    const hair3Geometry = new THREE.BoxBufferGeometry(0.3, 0.3, 0.3);
-    const hair3 = new THREE.Mesh(hair3Geometry, this.hairMaterial);
-    hair3.castShadow = true;
-    hair3.receiveShadow = true;
-    hair3.position.set(0, 0.7, -0.4);
-    head.add(hair3);
+    const onionGeometry = new THREE.BoxBufferGeometry(0.3, 0.3, 0.3);
+    const onion = new THREE.Mesh(onionGeometry, this.hairMaterial);
+    onion.castShadow = true;
+    onion.receiveShadow = true;
+    onion.position.set(0, 0.7, -0.4);
+    head.add(onion);
 
     const leftEyeGeometry = new THREE.BoxBufferGeometry(0.05, 0.05, 0.05);
     const leftEye = new THREE.Mesh(leftEyeGeometry, this.eyeMaterial);
@@ -210,7 +210,8 @@ class Chicken{
     }
 
     step_iter = step_iter + 1;
-    if (step_iter==38) {
+    console.log(step_iter);
+    if (step_iter==28) {
       step = !step;
       step_iter = 0;
     }
@@ -220,7 +221,7 @@ class Chicken{
 
     if(asse=='x') this.group.position.x = this.group.position.x + 1.0387*dist*goingFastChicken;
 
-//////////////// DA ELIMINARE
+    //////////////// DA ELIMINARE
     /////////////const wingRotation = Math.sin(this.vAngle) * Math.PI / 3 + 1.5;
     /////////////this.leftWing.rotation.z = -wingRotation;
 
@@ -354,12 +355,6 @@ class Chicken{
     this.group.rotation.z += rad(10);
     if(this.group.position.y > 20){
       eventMsg("Hit by a car!\n GAME OVER!");
-    }
-  }
-  sunkAnimation(){
-    this.group.position.y-=4*crashSpeed;
-    if(this.group.position.y < -35){
-      eventMsg("Fallen in the river!\n GAME OVER!");
     }
   }
 }

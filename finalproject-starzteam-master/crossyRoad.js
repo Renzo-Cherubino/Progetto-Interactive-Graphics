@@ -26,8 +26,7 @@ var scene,
     diffModifier = 0.0,
     numLevels = 1,
     listNumCar = [],
-    listSpeed = [],
-    speedListWood = [];
+    listSpeed = [];
 
 var soundtrack = null;
 const sound = createjs.Sound;
@@ -224,18 +223,12 @@ function getNewTerrain(posZ = -1){
     track = new GrassEnd(posAtt);
   } 
   else {
-    if(Math.floor(Math.random()*1) == 0){
-      var n = Math.floor(Math.random()*numLanes.length);
-      if(night)
-        track = new RoadWithPoleLights(posAtt, numLanes[n]);
-      else
-        track = new Road(posAtt, numLanes[n]);
-      numberOfJumps+=n+2;
-    }
-    else {
-      track = new River(posAtt);
-      numberOfJumps+=3;
-    }
+    var n = Math.floor(Math.random()*numLanes.length);
+    if(night)
+      track = new RoadWithPoleLights(posAtt, numLanes[n]);
+    else
+      track = new Road(posAtt, numLanes[n]);
+    numberOfJumps+=n+2;
   }
   pos = track.occupiedSpace*1.5;
   return {
@@ -447,7 +440,7 @@ function render() {
     //need to be before the other controls and then crash control
   }
 
-  else if(!splash){
+  else if(!flag){
     if(!outrun) {
       if(!flag_dead) {
         sound.play('death');
@@ -458,28 +451,6 @@ function render() {
   }
 
   renderer.render(scene, camera);
-}
-
-var sign1 = 1;
-var sign2 = 1;
-function activateSplash(posZ,posX,howMany){
-  var splashParts;
-  if(!added){
-    for(var i = 0; i < howMany; i++){
-      splashParts = new splashParticles(posZ, posX, sign1, sign2);
-      enableAllLevelObject(splashParts.group);
-      sp.push(splashParts);
-      sign2 = sign1*sign2;
-      sign1 = sign1 * -1;
-      scene.add(sp[i].group);
-    }
-    added = true;
-  }
-  else{
-    for(var i = 0; i < howMany; i++){
-      sp[i].animateParticles();
-    }
-  }
 }
 
 function checkTrees(position){
@@ -555,7 +526,7 @@ function restartGame(){
   crash = !crash;
   startGame(pickedAnimal, night, difficulty);
   document.getElementById("resume").style.display = "none";
-  //document.getElementById("restart").style.display = "none";
+  document.getElementById("restart").style.display = "none";
   document.getElementById("menuBtn").style.display = "none";
   document.getElementById('toggle-menu').style.display="block"
 }
@@ -571,28 +542,21 @@ function eventMsg(msg) {
 
 function setDifficulty(diff){
   if(diff == "Easy"){
-    numLevels = 18;
-    listNumCar = [0,2,3];
-    listSpeed = [0.04, 0.05, 0.06, 0.12];
-    speedListWood = [0.01, 0.02, 0.05];
+    numLevels = 2;
+    listNumCar = [1,2,3];
+    listSpeed = [0.04, 0.06, 0.12];
     diffModifier = 0.035;
   }
   else if (diff == "Normal"){
-    numLevels = 16;
-    listNumCar = [1,2,3];
-    listSpeed = [0.06, 0.08, 0.15];
-    speedListWood = [0.03, 0.04, 0.1];
+    numLevels = 20;
+    listNumCar = [2,3];
+    listSpeed = [0.07, 0.1, 0.15];
     diffModifier = 0.04;
   }
   else{
-    numLevels = 26;
+    numLevels = 25;
     listNumCar = [2,3,4];
-    listSpeed = [0.15, 0.18, 0.25];
-    //////////////////// speedListWood = [0.05, 0.06, 0.13];
+    listSpeed = [0.15, 0.2, 0.25];
     diffModifier = 0.05;
   }
 }
-
-//DECOMMENT these to skip the start page
-//init();
-//animate();

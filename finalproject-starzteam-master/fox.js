@@ -38,32 +38,18 @@ class Fox{
     this.sideY = boxReferenceHeight/2;
     this.sideZ = boxReferenceDepth/2;
 
-    this.skinMaterial = new THREE.MeshStandardMaterial({
-      color: 0xff4500,
-      roughness: 1,
-      shading: THREE.FlatShading
-    });
-    this.whiteMaterial = new THREE.MeshStandardMaterial({
-      color: 0xffffff,
-      roughness: 1,
-      shading: THREE.FlatShading
-    });
-    this.orangeMaterial = new THREE.MeshStandardMaterial({
-      color: 0xffa500,
-      roughness: 1,
-      shading: THREE.FlatShading
-    });
-    this.blackMaterial = new THREE.MeshStandardMaterial({
-      color: 0x000000,
-      roughness: 1,
-      shading: THREE.FlatShading
-    });
+    this.skinMaterial = new THREE.MeshStandardMaterial({color: 0xff4500, roughness: 1, shading: THREE.FlatShading});
+    this.whiteMaterial = new THREE.MeshStandardMaterial({color: 0xffffff, roughness: 1, shading: THREE.FlatShading});
+    this.orangeMaterial = new THREE.MeshStandardMaterial({color: 0xffa500, roughness: 1, shading: THREE.FlatShading});
+    this.blackMaterial = new THREE.MeshStandardMaterial({color: 0x000000, roughness: 1, shading: THREE.FlatShading});
+
     this.drawBody();
     this.drawHead();
     this.drawLegs();
   }
+
   drawBody() {
-    const bodyGeometry = new THREE.BoxBufferGeometry(0.5*size, 0.5*size, 1.2  *size);
+    const bodyGeometry = new THREE.BoxBufferGeometry(2*size, 3*size, 1.2*size);
     this.body = new THREE.Mesh(bodyGeometry, this.skinMaterial);
     this.body.castShadow = true;
     this.body.receiveShadow = true;
@@ -472,10 +458,5 @@ crashAnimation(){
     eventMsg("Hit by a car!\n GAME OVER!");
   }
 }
-sunkAnimation(){
-  this.group.position.y-=4*crashSpeed;
-  if(this.group.position.y < -35){
-    eventMsg("Fallen in the river!\n GAME OVER!");
-  }
-}
+
 }
