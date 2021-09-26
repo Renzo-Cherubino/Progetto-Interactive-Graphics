@@ -11,9 +11,11 @@
     <script src="./libs/soundjs.min.js"></script>
     <script src="./OrbitControls.js"></script>
     <script src="./thingsRoad.js"></script>
-    <script src="./chicken.js"></script>
+    <script src="./sheep.js"></script>
+    <script src="./oldLady.js"></script>
     <script src="./dog.js"></script>
     <script src="./car.js"></script>
+    <script src="./shark.js"></script>
     
         <style>
             html, body {
@@ -33,9 +35,11 @@
 	            font-style: normal;
             }
             
+            select#characterSel option[value="Sheep"]   { width:95px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
             select#characterSel option[value="OldLady"] { width:95px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
             select#characterSel option[value="Dog"] { width:95px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
-
+            select#characterSel option[value="Shark"] { width:95px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
+            
             select#dayNightSel option[value="false"] { background-color:rgb(109, 214, 255); width:90px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
             select#dayNightSel option[value="true"] { background-color:rgb(109, 214, 255); width:90px; height:100px; background-repeat: no-repeat; background-size: 100px 100px;}
            
@@ -62,13 +66,10 @@
             opt = document.getElementById("dayNightSel");
             var condSelected = opt.options[opt.selectedIndex].value;
     
-            opt = document.getElementById("fog");
-            var fogSelected = opt.options[opt.selectedIndex].value;
-    
             opt = document.getElementById("difficult");
             var diffSelected = opt.options[opt.selectedIndex].value;
     
-            startGame(charSelected, condSelected, diffSelected,fogSelected);
+            startGame(charSelected, condSelected, diffSelected);
             document.getElementById("world").style.display = "block";
             document.getElementById("toggle toggle-night").style.display = "none";
             document.getElementById("score").style.display = "none";
@@ -81,6 +82,7 @@
     <div id="selection1">
         <label>Select character</label></br>
         <select id="characterSel" size="2">
+          <option style="background-image:url(icon/sheep.png);" value="Sheep" selected></option>
           <option style="background-image:url(icon/oldLady.png);" value="OldLady"></option>
           <option style="background-image:url(icon/dog.png);" value="Dog" ></option>
         </select></br>
@@ -89,8 +91,8 @@
     <div id="selection2">
     <label>Select the light</label></br>
     <select id="dayNightSel" size="2">
-      <option style="background-image:url(icon/sun.png);" value="false"  ></option>
-      <option style="background-image:url(icon/night.png);" value="true" selected></option>
+      <option style="background-image:url(icon/sun.png);" value="false" selected></option>
+      <option style="background-image:url(icon/night.png);" value="true"></option>
     </select>
     </div>
 
@@ -116,14 +118,18 @@
 
 
   </div>
+  
   <div id="world" class="world" style="display: none;">
     <a id="toggle toggle-night" class="toggle toggle-night" style="display: none;"></a>
-    <a id="toggle-menu" class="toggle-menu" style="display: block;"></a>
+    <a id="toggle-menu" class="toggle-menu" style="display: none;"></a>
+    <div id="score">
+      <p style="display: none;">Current Score :</p> <p id="cScore" style="display: none;"></p>
+      <p style="display: none; margin-left:5%;">High Score :</p><p id="hScore" style="display: none;"></p>
+    </div>
     <div id="event" style="display: none;">Text</div>
     <div id="resume" onclick="resumeAnim()" onmouseover="this.style.backgroundColor = '#D2691E'" onmouseout="this.style.backgroundColor = 'gold'" style="display: none;">Resume</div>
-    <div id="menubutton" onclick="window.location.href = 'menuIndex.html';" onmouseover="this.style.backgroundColor = '#D2691E'" onmouseout="this.style.backgroundColor = 'gold'" style="display: none;">Menu</div>
-  </div>
-  
+    <div id="restart" onclick="restartGame()" onmouseover="this.style.backgroundColor = '#D2691E'" onmouseout="this.style.backgroundColor = 'gold'" style="display: none;">Restart</div>
+    <div id="menubutton" onclick="location.reload();" onmouseover="this.style.backgroundColor = '#D2691E'" onmouseout="this.style.backgroundColor = 'gold'" style="display: none;">Menu</div>
   </div>
 
     <link rel="stylesheet" href="menu.css" type="text/css" />
